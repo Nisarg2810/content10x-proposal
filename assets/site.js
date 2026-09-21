@@ -41,5 +41,29 @@
     }, { threshold: .1, rootMargin: '0px 0px -6% 0px' });
     doc.querySelectorAll('.rev,.stag,.steps,h1.split,h2.split').forEach(function (e) { io.observe(e); });
   } else doc.querySelectorAll('.rev,.stag,.steps,h1.split,h2.split').forEach(function (e) { e.classList.add('in'); });
+  /* greeting: once per session, dismissed on its own or by the reader */
+  var hey = doc.getElementById('hey');
+  if (hey) {
+    var seen = false;
+    try { seen = sessionStorage.getItem('c10-hey') === '1'; } catch (e) {}
+    if (seen) hey.parentNode.removeChild(hey);
+    else {
+      doc.documentElement.classList.add('hey-on');
+      try { sessionStorage.setItem('c10-hey', '1'); } catch (e) {}
+      var gone = false;
+      var close = function () {
+        if (gone) return; gone = true;
+        hey.classList.add('out');
+        doc.documentElement.classList.remove('hey-on');
+        setTimeout(function () { if (hey.parentNode) hey.parentNode.removeChild(hey); }, 700);
+      };
+      var t = setTimeout(close, 3300);
+      var early = function () { clearTimeout(t); close(); };
+      hey.addEventListener('click', early);
+      doc.addEventListener('keydown', early, { once: true });
+      window.addEventListener('wheel', early, { once: true, passive: true });
+      window.addEventListener('touchmove', early, { once: true, passive: true });
+    }
+  }
   var y = doc.getElementById('yr'); if (y) y.textContent = new Date().getFullYear();
 })();

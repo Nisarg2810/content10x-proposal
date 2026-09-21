@@ -12,6 +12,18 @@ def sq(w):
 
 NAV = [('index.html', 'Overview'), ('option-1.html', 'Option 1'), ('option-2.html', 'Option 2'), ('option-3.html', 'Option 3')]
 
+HEY = '''<div class="hey" id="hey" aria-hidden="true">
+  <div class="hey-in">
+    <img class="hey-sticker" src="assets/img/amy.webp" alt="" width="760" height="950" fetchpriority="high">
+    <p class="hey-kick">A proposal, made for you</p>
+    <div class="hey-h">Hey <span class="squig">Amy%s</span></div>
+    <p class="hey-sub">Your website and blog, three ways. Two minutes to read.</p>
+    <div class="hey-bar"><i></i></div>
+    <button class="hey-skip" id="heySkip" type="button">Skip</button>
+  </div>
+</div>''' % SQ
+
+
 def shell(page, title, desc, body):
     ON = ' class="on"'
     nav = ''.join('<a href="%s"%s>%s</a>' % (h, ON if h == page else '', t) for h, t in NAV)
@@ -37,6 +49,7 @@ def shell(page, title, desc, body):
 </head>
 <body>
 <div class="mesh" aria-hidden="true"></div>
+{HEY if page == "index.html" else ""}
 <header class="hdr"><div class="hdr-row">
   <a class="logo" href="index.html"><i>10</i><span>Content 10x <span style="color:var(--t3);font-weight:500">proposal</span></span></a>
   <nav class="nav">{nav}</nav>

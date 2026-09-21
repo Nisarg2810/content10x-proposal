@@ -177,3 +177,23 @@ mark{background:linear-gradient(transparent 58%,rgba(255,194,75,.35) 58%,rgba(25
 .split .w>span{display:inline-block;opacity:0;filter:blur(9px);transform:translateY(.3em);transition:opacity .7s var(--ease),filter .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i) * 42ms)}
 .in .split .w>span,.split.in .w>span{opacity:1;filter:blur(0);transform:none}
 @media(prefers-reduced-motion:reduce){.rev,.stag>*,.split .w>span{opacity:1!important;transform:none!important;filter:none!important}}
+
+/* greeting */
+.hey{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:var(--ink-900);padding:24px;text-align:center;overflow:hidden}
+.hey::before{content:"";position:absolute;width:820px;height:820px;left:50%;top:44%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(91,140,255,.24),transparent 62%);filter:blur(10px)}
+.hey.out{opacity:0;transform:scale(1.04);transition:opacity .62s ease,transform .62s cubic-bezier(.4,0,.2,1);pointer-events:none}
+.hey-in{position:relative;display:flex;flex-direction:column;align-items:center;gap:0;max-width:640px}
+.hey-sticker{width:min(260px,40vw);height:auto;filter:drop-shadow(0 26px 44px rgba(0,0,0,.42));opacity:0;transform:translateY(26px) scale(.84) rotate(-5deg);animation:heyPop .88s cubic-bezier(.2,1.5,.4,1) .12s forwards}
+@keyframes heyPop{to{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+.hey-kick{margin:22px 0 0;font:500 12px var(--f-m);letter-spacing:.2em;text-transform:uppercase;color:var(--t3);opacity:0;animation:heyUp .6s ease .5s forwards}
+.hey-h{margin:10px 0 0;font:800 clamp(40px,7vw,74px)/1 var(--f-d);letter-spacing:-.03em;color:var(--t1);opacity:0;animation:heyUp .66s ease .62s forwards}
+.hey-h .squig svg{stroke:var(--acc)}
+.hey-sub{margin:16px 0 0;font-size:17px;color:var(--t2);opacity:0;animation:heyUp .6s ease .8s forwards}
+@keyframes heyUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hey-bar{position:relative;width:132px;height:3px;margin-top:30px;border-radius:99px;background:var(--line-2);overflow:hidden;opacity:0;animation:heyUp .5s ease .9s forwards}
+.hey-bar i{position:absolute;inset:0;border-radius:99px;background:linear-gradient(90deg,var(--acc),var(--mint));transform-origin:left;transform:scaleX(0);animation:heyBar 2.1s cubic-bezier(.4,0,.2,1) .9s forwards}
+@keyframes heyBar{to{transform:scaleX(1)}}
+.hey-skip{margin-top:24px;background:none;border:0;color:var(--t3);font:500 13px var(--f-b);letter-spacing:.02em;cursor:pointer;opacity:0;animation:heyUp .5s ease 1.4s forwards}
+.hey-skip:hover{color:var(--t1)}
+html.hey-on,html.hey-on body{overflow:hidden}
+@media(prefers-reduced-motion:reduce){.hey-sticker,.hey-kick,.hey-h,.hey-sub,.hey-bar,.hey-skip{animation-duration:.01s;animation-delay:0s;opacity:1;transform:none}.hey-bar i{animation-duration:.6s;animation-delay:0s}}
