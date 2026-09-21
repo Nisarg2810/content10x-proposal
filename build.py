@@ -15,7 +15,9 @@ NAV = [('index.html', 'Overview'), ('option-1.html', 'Option 1'), ('option-2.htm
 def shell(page, title, desc, body):
     ON = ' class="on"'
     nav = ''.join('<a href="%s"%s>%s</a>' % (h, ON if h == page else '', t) for h, t in NAV)
+    nav += '<a class="nav-cmp" href="index.html#compare" data-track="Nav: Compare">Compare</a>'
     sheet = ''.join(f'<a href="{h}"><b>{i+1:02d}</b>{t}</a>' for i, (h, t) in enumerate(NAV))
+    sheet += '<a href="index.html#compare" data-track="Menu: Compare"><b>05</b>Compare the three</a>'
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -39,8 +41,8 @@ def shell(page, title, desc, body):
   <a class="logo" href="index.html"><i>10</i><span>Content 10x <span style="color:var(--t3);font-weight:500">proposal</span></span></a>
   <nav class="nav">{nav}</nav>
   <div class="hdr-r">
-    <button class="tbtn" id="themeBtn" aria-label="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" stroke-linecap="round"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.2A8.2 8.2 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2z"/></svg></button>
-    <button class="burger" id="burger" aria-label="Menu"><i></i><i></i></button>
+    <button class="tbtn" id="themeBtn" data-notrack aria-label="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" stroke-linecap="round"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.2A8.2 8.2 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2z"/></svg></button>
+    <button class="burger" id="burger" data-notrack aria-label="Menu"><i></i><i></i></button>
   </div>
 </div></header>
 <div class="sheet"><div class="wrap" style="width:100%">{sheet}</div></div>
@@ -57,6 +59,7 @@ def shell(page, title, desc, body):
   <div class="ftr-b"><p>Prepared for Content 10x &middot; September <span id="yr">2026</span></p><p>Happy to adjust the scope to suit your priorities</p></div>
 </div></footer>
 <script src="assets/site.js?v=1"></script>
+<script src="assets/track.js?v=1" defer></script>
 </body>
 </html>
 """
@@ -238,13 +241,13 @@ def phase(num, label, title, intro, do, get):
   </section>'''
 
 def cta(title, sub, primary='Book a call to talk it through', secondary=None):
-    sec = f'<a class="btn btn-g btn-lg" href="{secondary[1]}">{secondary[0]}</a>' if secondary else ''
+    sec = f'<a class="btn btn-g btn-lg" href="{secondary[1]}" data-track="CTA: {secondary[0]}">{secondary[0]}</a>' if secondary else ''
     return f'''
   <section class="sec">
     <div class="wrap"><div class="panel pad rev" style="text-align:center;padding:64px 34px">
       <h2 class="split" style="font-size:clamp(26px,3vw,38px)">{title}</h2>
       <p style="color:var(--t2);margin:18px auto 0;max-width:56ch">{sub}</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px"><a class="btn btn-p btn-lg" href="mailto:hello@example.com">{primary}</a>{sec}</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px"><a class="btn btn-p btn-lg" href="mailto:hello@example.com" data-track="CTA: {primary}">{primary}</a>{sec}</div>
     </div></div>
   </section>'''
 
@@ -279,7 +282,7 @@ def index():
              'A complete new website, built fast with AI assisted development, then reviewed and hardened by hand.', 'option-2.html'),
             ('3', 'Custom site and CMS', '30 days', 'Full rebuild &middot; Custom CMS',
              'Designed and built from scratch in 30 days, with a CMS shaped around how your team actually publishes.', 'option-3.html')]
-    oc = ''.join(f'''<a class="opt" href="{h}"><span class="on">Option {n}</span><h3>{t}</h3><p>{d}</p>
+    oc = ''.join(f'''<a class="opt" href="{h}" data-track="Opened Option {n}: {t}"><span class="on">Option {n}</span><h3>{t}</h3><p>{d}</p>
       <div class="meta"><span class="badge acc">{dur}</span><span class="badge">{k}</span></div>
       <span class="go">See what is included {ARROW}</span></a>''' for n, t, dur, k, d, h in opts)
     rows = [('Scope', 'Blog section only', 'Entire website rebuilt', 'Entire website rebuilt'),
@@ -298,7 +301,7 @@ def index():
     cmpm = ''
     for i, (nm, lb) in enumerate(onames):
         dl = ''.join(f'<div class="cm-r"><dt>{r[0]}</dt><dd>{r[i+1]}</dd></div>' for r in rows)
-        cmpm += f'<div class="cm-card"><span class="kick"><b>0{i+1}</b> Option {i+1}</span><h3>{nm}</h3><dl>{dl}</dl><a class="go" href="option-{i+1}.html">See what is included {ARROW}</a></div>'
+        cmpm += f'<div class="cm-card"><span class="kick"><b>0{i+1}</b> Option {i+1}</span><h3>{nm}</h3><dl>{dl}</dl><a class="go" href="option-{i+1}.html" data-track="Compare card: opened Option {i+1}">See what is included {ARROW}</a></div>'
     need = [('Access', ['Admin or editor access to WordPress.', 'Read access to Google Analytics and Google Search Console.', 'A staging site if one exists, or approval to work on the live site after a full backup, for Option 1.']),
             ('Materials for Options 2 and 3', ['Brand assets: logo files, fonts, colours, imagery and any brand guidelines.', 'A list of must have pages and integrations.']),
             ('Decisions', ['Sign off on the niche and tag structure at the end of the audit.', 'Sign off on the keep list: the 150 to 200 posts that stay.', 'Sign off on the design direction before build begins, for Options 2 and 3.']),
@@ -312,7 +315,7 @@ def index():
           <span class="kick"><b>PROPOSAL</b> Prepared for Content 10x &middot; September 2026</span>
           <h1 class="split" style="font-size:clamp(34px,4.4vw,60px);margin:20px 0 0">Website and blog proposal: {sq('three options')}.</h1>
           <p class="lede">The Content 10x blog holds over 350 posts in one continuous list, with a search box as the only way in. This proposal sets out three ways to fix that, from a focused blog restructure to a fully custom website, with <mark>the same underlying content structure in all three</mark>, so nothing is ever done twice.</p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:26px"><a class="btn btn-p btn-lg" href="#options">See the three options</a><a class="btn btn-g btn-lg" href="#compare">Compare side by side</a></div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:26px"><a class="btn btn-p btn-lg" href="#options" data-track="Hero: See the three options">See the three options</a><a class="btn btn-g btn-lg" href="#compare" data-track="Hero: Compare side by side">Compare side by side</a></div>
           <p style="margin-top:18px;color:var(--t3);font-size:14.5px">Prepared by Nisarg Mehta</p>
         </div>
         <div class="rev">{mk_blog_today()}</div>

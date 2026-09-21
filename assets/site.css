@@ -137,6 +137,8 @@ mark{background:linear-gradient(transparent 58%,rgba(255,194,75,.35) 58%,rgba(25
 .cmp thead th small{display:block;font:500 11px var(--f-m);color:var(--t3);letter-spacing:.1em;margin-top:4px}
 .cmp tbody th{font-weight:600;color:var(--t1);width:210px;background:var(--ink-900)}
 .cmp tr:hover td{background:var(--glass)}
+.nav-cmp{position:relative}
+.nav-cmp::before{content:"";position:absolute;left:-7px;top:50%;width:1px;height:16px;transform:translateY(-50%);background:var(--line-2)}
 .hint{display:none;margin:14px 0 0;font:500 14px var(--f-b);color:var(--t3)}
 @media(min-width:781px) and (max-width:1120px){.hint{display:block}}
 .cmp-m{display:none}

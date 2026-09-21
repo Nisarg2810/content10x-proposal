@@ -19,13 +19,13 @@
 <div class="mesh" aria-hidden="true"></div>
 <header class="hdr"><div class="hdr-row">
   <a class="logo" href="index.html"><i>10</i><span>Content 10x <span style="color:var(--t3);font-weight:500">proposal</span></span></a>
-  <nav class="nav"><a href="index.html">Overview</a><a href="option-1.html">Option 1</a><a href="option-2.html" class="on">Option 2</a><a href="option-3.html">Option 3</a></nav>
+  <nav class="nav"><a href="index.html">Overview</a><a href="option-1.html">Option 1</a><a href="option-2.html" class="on">Option 2</a><a href="option-3.html">Option 3</a><a class="nav-cmp" href="index.html#compare" data-track="Nav: Compare">Compare</a></nav>
   <div class="hdr-r">
-    <button class="tbtn" id="themeBtn" aria-label="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" stroke-linecap="round"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.2A8.2 8.2 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2z"/></svg></button>
-    <button class="burger" id="burger" aria-label="Menu"><i></i><i></i></button>
+    <button class="tbtn" id="themeBtn" data-notrack aria-label="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" stroke-linecap="round"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.2A8.2 8.2 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2z"/></svg></button>
+    <button class="burger" id="burger" data-notrack aria-label="Menu"><i></i><i></i></button>
   </div>
 </div></header>
-<div class="sheet"><div class="wrap" style="width:100%"><a href="index.html"><b>01</b>Overview</a><a href="option-1.html"><b>02</b>Option 1</a><a href="option-2.html"><b>03</b>Option 2</a><a href="option-3.html"><b>04</b>Option 3</a></div></div>
+<div class="sheet"><div class="wrap" style="width:100%"><a href="index.html"><b>01</b>Overview</a><a href="option-1.html"><b>02</b>Option 1</a><a href="option-2.html"><b>03</b>Option 2</a><a href="option-3.html"><b>04</b>Option 3</a><a href="index.html#compare" data-track="Menu: Compare"><b>05</b>Compare the three</a></div></div>
 <main>
 
   <section class="sec" style="padding-top:140px">
@@ -98,7 +98,7 @@
     <div class="wrap"><div class="panel pad rev" style="text-align:center;padding:64px 34px">
       <h2 class="split" style="font-size:clamp(26px,3vw,38px)">A full refresh, with a lighter scope.</h2>
       <p style="color:var(--t2);margin:18px auto 0;max-width:56ch">Most of the visible benefit of a custom build, sooner. If exact fit matters more than speed, Option 3 is the one to read next.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px"><a class="btn btn-p btn-lg" href="mailto:hello@example.com">Talk through Option 2</a><a class="btn btn-g btn-lg" href="option-3.html">See Option 3</a></div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px"><a class="btn btn-p btn-lg" href="mailto:hello@example.com" data-track="CTA: Talk through Option 2">Talk through Option 2</a><a class="btn btn-g btn-lg" href="option-3.html" data-track="CTA: See Option 3">See Option 3</a></div>
     </div></div>
   </section>
 </main>
@@ -112,5 +112,6 @@
   <div class="ftr-b"><p>Prepared for Content 10x &middot; September <span id="yr">2026</span></p><p>Happy to adjust the scope to suit your priorities</p></div>
 </div></footer>
 <script src="assets/site.js?v=1"></script>
+<script src="assets/track.js?v=1" defer></script>
 </body>
 </html>
