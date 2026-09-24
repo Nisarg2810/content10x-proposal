@@ -246,3 +246,34 @@ html.hey-on,html.hey-on body{overflow:hidden}
 .d-first{position:absolute;left:14px;top:-46px;transform:rotate(-4deg);color:var(--mint);font-size:21px}
 .d-first .dd-arrow{transform:rotate(6deg);width:54px;height:36px}
 @media(max-width:860px){.d-opt,.d-first{position:static;display:inline-flex;margin-bottom:10px;transform:rotate(-2deg)}}
+
+/* investment */
+.price{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:stretch;border:1px solid var(--line-2);
+  border-radius:var(--r-lg);background:linear-gradient(160deg,rgba(91,140,255,.09),var(--ink-850));padding:34px}
+@media(max-width:900px){.price{grid-template-columns:1fr;padding:26px}}
+.price-l p{margin:16px 0 0;color:var(--t2);font-size:15.5px;line-height:1.7;max-width:46ch}
+.price-n{font:800 clamp(48px,7vw,78px)/1 var(--f-d);letter-spacing:-.04em;margin-top:14px;
+  background:linear-gradient(120deg,var(--t1),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent}
+.price-r{display:grid;gap:14px;align-content:center}
+.pay{border:1px solid var(--line-2);border-radius:var(--r-md);background:var(--ink-900);padding:20px 22px}
+.pay.best{border-color:rgba(61,220,151,.45);background:linear-gradient(180deg,rgba(61,220,151,.09),var(--ink-900))}
+.pay h3{margin:12px 0 6px;font:700 19px var(--f-d);letter-spacing:-.01em;color:var(--t1)}
+.pay p{margin:0;font-size:14px;color:var(--t2);line-height:1.6}
+.pay-n{margin-top:12px;font:600 17px var(--f-m);color:var(--t1)}
+.pay.best .pay-n{color:var(--mint)}
+.tiny{margin:14px 0 0;font-size:13px;color:var(--t3)}
+.sow{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:18px;margin-top:34px}
+.sow-b{border:1px solid var(--line);border-radius:var(--r-md);background:var(--ink-900);padding:22px 24px}
+.sow-b h3{margin:0 0 10px;font:700 18px var(--f-d);letter-spacing:-.01em;color:var(--t1)}
+.tl{display:grid;gap:0}
+.tl-i{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:16px 0;border-top:1px solid var(--line)}
+.tl-i:first-child{border-top:0}
+.tl-i b{font:600 12px var(--f-m);letter-spacing:.12em;text-transform:uppercase;color:var(--acc)}
+.tl-i p{margin:0;font-size:15px;line-height:1.65;color:var(--t2)}
+@media(max-width:620px){.tl-i{grid-template-columns:1fr;gap:6px}}
+.note-me p{color:var(--t2);font-size:16.5px;line-height:1.8;max-width:72ch;margin:16px 0 0}
+
+/* page heroes sit below the fixed header */
+.hero{padding:132px 0 18px}
+.hero .lede{margin-top:18px}
+@media(max-width:760px){.hero{padding:104px 0 12px}}

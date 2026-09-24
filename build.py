@@ -11,7 +11,7 @@ SQ = '<svg viewBox="0 0 200 14" preserveAspectRatio="none"><path d="M2 8 Q 12 2 
 def sq(w):
     return f'<span class="nw"><span class="squig">{w}{SQ}</span></span>'
 
-NAV = [('index.html', 'Overview'), ('option-1.html', 'Option 1'), ('answers.html', 'Your questions'), ('option-2.html', 'Option 2'), ('option-3.html', 'Option 3')]
+NAV = [('index.html', 'Overview'), ('option-1.html', 'Option 1'), ('answers.html', 'Your questions'), ('investment.html', 'Investment'), ('option-2.html', 'Option 2'), ('option-3.html', 'Option 3')]
 
 HEY = '''<div class="hey" id="hey" aria-hidden="true">
   <div class="hey-in">
@@ -996,6 +996,179 @@ def answers():
         'Talk it through', ('Back to Option 1', 'option-1.html'))
 
 
+# ---------------------------------------------------------------- investment
+
+SOW = [
+    ('The audit', [
+        'Every post exported with 16 months of Search Console data.',
+        'A decision on each one: keep, update, merge or retire, with the reason written next to it.',
+        'Posts carrying backlinks or steady traffic flagged before any decision is made.',
+        'The sheet is yours to keep, whatever you do next.']),
+    ('The structure', [
+        'Seven niches agreed with you, plus format, industry and stage tags.',
+        'Every post filed in WordPress against that structure.',
+        'Old and duplicate categories cleaned up, nothing left uncategorised.']),
+    ('The blog, rebuilt', [
+        'A new blog front page: featured posts, browse by category, series and latest articles.',
+        'Topic filters, format and stage filters, and search that works inside a topic.',
+        'Format and reading time on every card.',
+        'Built inside your existing theme as a child theme, so the rest of the site is untouched.']),
+    ('Category pages', [
+        'A hub page for each niche with an introduction, the posts in it and a Start here list.',
+        'A sign up prompt on each hub that matches the topic.']),
+    ('Article pages', [
+        'Breadcrumb, format label, reading time and the date it was last updated.',
+        'Read next: three posts from the same topic, with images, at the foot of every article.']),
+    ('Search safety', [
+        'A full URL map before anything moves.',
+        '301 redirects for every merged or retired post, so nothing 404s.',
+        'Sitemap resubmitted and Search Console watched for two weeks after launch.']),
+    ('Handover', [
+        'A one page guide so your team files new posts the same way.',
+        'A walkthrough call with whoever publishes each week.',
+        'Two weeks of support after launch, included.']),
+]
+
+NOT_IN = [
+    'Writing or rewriting posts. You get the exact list of what to change on each one, your team writes.',
+    'A rebrand. Same logo, same colours, same voice.',
+    'Changes to pages outside the blog, such as home, services or contact.',
+    'A new CMS, new hosting or a migration. Everything stays on your WordPress.',
+    'An ongoing SEO or content retainer after the two weeks of support.',
+]
+
+HOW = [
+    ('A live link from day one',
+     'You get a staging link the day we start. Every change appears there, so you are never waiting for a reveal or wondering where things are.'),
+    ('A short call each week, and notes in between',
+     'One scheduled catch up a week while the work runs, plus a written update whenever something lands. If you would rather have more, say so.'),
+    ('Revisions are part of the price',
+     'Within the scope on this page, changes cost nothing extra. No change requests, no hourly top ups, no invoices you did not expect.'),
+    ('One point of contact',
+     'You deal with me, start to finish. The person who scopes it is the person who builds it.'),
+]
+
+NEED = [
+    'Admin access to WordPress, and read access to Search Console and Analytics.',
+    'A staging site if you have one, or permission to work on live after a full backup.',
+    'Sign off on the niche list and on the keep list, once each.',
+    'One person who can answer a question within a couple of working days.',
+]
+
+
+def investment():
+    sow = ''.join(
+        f'''<div class="sow-b rev"><h3>{H.escape(title)}</h3><ul class="ticks">'''
+        + ''.join(f'<li>{H.escape(x)}</li>' for x in items) + '</ul></div>'
+        for title, items in SOW)
+    notin = ''.join(f'<li>{H.escape(x)}</li>' for x in NOT_IN)
+    how = ''.join(f'<div class="card"><h3>{H.escape(t)}</h3><p>{H.escape(b)}</p></div>' for t, b in HOW)
+    need = ''.join(f'<li>{H.escape(x)}</li>' for x in NEED)
+
+    return f'''
+  <section class="hero">
+    <div class="wrap">
+      <span class="kick"><b>OPTION 1</b> Blog restructure</span>
+      <h1 class="split">The {sq('investment')}, and what it covers.</h1>
+      <p class="lede">Everything below is what you get for one number, on one timeline, with one person doing it.
+      No hourly billing, no change requests, nothing added later.</p>
+    </div>
+  </section>
+
+  <section class="sec tight">
+    <div class="wrap">
+      <div class="price rev">
+        <div class="price-l">
+          <span class="kick"><b></b> Total</span>
+          <div class="price-n">&pound;3,600</div>
+          <p>For the whole of Option 1: the audit, the structure, the rebuilt blog, the category pages, the article
+          pages, the redirects and the handover. Two to three weeks, plus two weeks of support.</p>
+        </div>
+        <div class="price-r">
+          <div class="pay">
+            <span class="badge">Standard</span>
+            <h3>50 now, 50 on launch</h3>
+            <p>Half to start, half when the new blog goes live and you have signed it off.</p>
+            <div class="pay-n">&pound;1,800 &middot; &pound;1,800</div>
+          </div>
+          <div class="pay best">
+            <span class="badge acc">Paid up front</span>
+            <h3>One payment, 5 percent off</h3>
+            <p>If you would rather settle it in one go at the start.</p>
+            <div class="pay-n">&pound;3,420</div>
+          </div>
+        </div>
+      </div>
+      <p class="tiny rev">Invoiced in pounds. Payment by bank transfer or Wise, whichever is easier for you.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-h rev"><span class="kick"><b>01</b> What you get</span>
+        <h2 class="split">Everything in the price, written out.</h2>
+        <p class="lede">If it is on this list it is included. If it is not, it is on the short list below it.</p></div>
+      <div class="sow stag">{sow}</div>
+    </div>
+  </section>
+
+  <section class="sec tight">
+    <div class="wrap">
+      <div class="g2" style="gap:28px;align-items:start">
+        <div class="panel pad rev">
+          <span class="kick"><b></b> Not included</span>
+          <ul class="nolist" style="margin-top:16px">{notin}</ul>
+        </div>
+        <div class="panel pad rev">
+          <span class="kick"><b></b> What I need from you</span>
+          <ul class="ticks" style="margin-top:16px">{need}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-h rev"><span class="kick"><b>02</b> How it runs</span>
+        <h2 class="split">You will always know where it is.</h2></div>
+      <div class="g2 stag" style="gap:18px">{how}</div>
+    </div>
+  </section>
+
+  <section class="sec tight">
+    <div class="wrap">
+      <div class="panel pad rev">
+        <span class="kick"><b>03</b> Timeline</span>
+        <div class="tl" style="margin-top:20px">
+          <div class="tl-i"><b>Week 1</b><p>Audit of all 350 plus posts, and the niche structure proposed for your sign off.</p></div>
+          <div class="tl-i"><b>Week 2</b><p>The structure applied: categories, tags, merges and redirects, on staging.</p></div>
+          <div class="tl-i"><b>Week 3</b><p>The new blog front page, category pages and article pages. Sign off, then live.</p></div>
+          <div class="tl-i"><b>+ 2 weeks</b><p>Support: crawl errors, redirects, small adjustments once real traffic arrives.</p></div>
+        </div>
+        <p class="tiny" style="margin-top:18px">The clock starts when access and the go ahead land, not when the invoice does.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="panel pad rev note-me">
+        <span class="kick"><b></b> A personal note</span>
+        <p>I would rather you see this being built than read about it afterwards. The staging link is live from day one,
+        you will hear from me every week without chasing, and anything inside the scope above gets changed as many times
+        as it needs, at no extra cost. If something turns out to be a bad idea halfway through, I will tell you rather
+        than build it quietly.</p>
+        <p style="margin-top:14px">If this sounds right, just reply by email or message me on LinkedIn and we can get started.</p>
+        <div class="hero-cta" style="margin-top:26px">
+          <a class="btn btn-p btn-lg" href="mailto:solviqodigital@gmail.com?subject=Content%2010x%20blog%20restructure">Email me</a>
+          <a class="btn btn-g btn-lg" href="answers.html">Back to your questions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+'''
+
+
 # ---------------------------------------------------------------- option 2
 def option2():
     body = opt_hero('2', '3 to 4 weeks', 'Full rebuild', f'A new website, built fast and then {sq("hardened by hand")}.',
@@ -1145,7 +1318,8 @@ def option3():
         'Thirty days from kick off to a live site, with a CMS your team can run without a developer.',
         'Talk through Option 3', ('Compare all three', 'index.html#compare'))
 
-PAGES = [('answers.html', 'Your questions, answered, Content 10x proposal', 'How the audit, the tests, the update and merge process, the filters and the design rounds actually work, with a picture of each.', answers),
+PAGES = [('investment.html', 'Investment, Content 10x proposal', 'What Option 1 costs, what is included, how it is paid and how the work runs.', investment),
+         ('answers.html', 'Your questions, answered, Content 10x proposal', 'How the audit, the tests, the update and merge process, the filters and the design rounds actually work, with a picture of each.', answers),
          ('index.html', 'Website and blog proposal for Content 10x', 'Three options to restructure the Content 10x blog and website, with one shared content structure.', index),
          ('option-1.html', 'Option 1: Blog restructuring, 2 to 3 weeks', 'Reorganise the blog inside the current WordPress site: audit, niches, filters and hub pages.', option1),
          ('option-2.html', 'Option 2: AI assisted new site, 3 to 4 weeks', 'A complete new website built fast with AI assisted development, then reviewed and hardened by hand.', option2),
