@@ -969,6 +969,9 @@ def answers():
         'Rather than show you somebody else, here is your own blog after the work, drawn out screen by screen.',
         ['Past work for other clients would tell you how their site looks. This tells you how yours will. Every screen below uses '
          'your real post titles, your topics and your structure, laid out the way it would be on the day this goes live.',
+         'Better than watching it, <a href="blog/" style="color:var(--acc);font-weight:600">open the working prototype</a> and use it. '
+         'Filter by topic, search inside a topic, open a post, follow Read next. It runs in your browser with dummy posts in place of '
+         'your real ones, and every filter changes the address bar exactly as it would on the live blog.',
          'Three things change for a reader. They can browse by topic instead of scrolling. They land on a hub that tells them where '
          'to start. And at the end of any article they are told what to read next, inside the same topic.'],
         film_block(),
@@ -983,6 +986,17 @@ def answers():
   </div></section>
 '''
 
+    body += '''
+  <section class="sec" style="padding-top:0"><div class="wrap"><div class="panel pad rev" style="text-align:center;padding:46px 30px">
+    <span class="kick" style="justify-content:center"><b></b> Better than a video</span>
+    <h2 class="chrome-text" style="font-size:clamp(23px,2.6vw,32px);margin-top:14px">Open the prototype and use it yourself.</h2>
+    <p style="color:var(--t2);margin:14px auto 0;max-width:60ch">Topic filters, search inside a topic, hub pages, an article page with
+    Read next. Real behaviour, dummy posts, running in your browser.</p>
+    <div class="hero-cta" style="justify-content:center;margin-top:24px">
+      <a class="btn btn-p btn-lg" href="blog/">Open the working prototype</a>
+      <a class="btn btn-g btn-lg" href="option-1.html">Back to Option 1</a></div>
+  </div></div></section>
+'''
     body += now_next()
     body += film_script()
     return body + cta('Happy to walk through any of this live.',

@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Content 10x Blog, prototype</title>
+<meta name="description" content="A working prototype of the Content 10x blog after Option 1: topic filters, hub pages, search inside a topic, and an article page that tells you what to read next.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--blue:#1F3C88;--blue2:#2E6FD9;--ink:#16223c;--body:#4a5568;--mut:#8592a6;--line:#e4e8ef;
+  --amber:#F5A623;--red:#C8102E;--navy:#25408F;--bg:#fff;--soft:#f6f8fc;--r:6px;
+  --f:'Inter',system-ui,-apple-system,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--f);color:var(--body);background:var(--bg);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1180px,92vw);margin:0 auto}
+
+/* proposal ribbon */
+.rib{background:#0B0F1A;color:#c9d6ea;font-size:13px;padding:9px 0}
+.rib .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.rib b{color:#fff;font-weight:600}
+.rib a{margin-left:auto;color:#7fa8ff;font-weight:600}
+.rib span{background:rgba(127,168,255,.16);color:#9dc0ff;font-size:11px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;padding:4px 9px;border-radius:99px}
+
+/* site header */
+.hd{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:30}
+.hd .wrap{display:flex;align-items:center;gap:26px;height:68px}
+.logo{font-weight:800;font-size:21px;color:var(--ink);letter-spacing:-.02em}
+.logo em{font-style:normal;color:var(--blue2)}
+.hd nav{display:flex;gap:22px;margin-left:auto;font-size:14.5px;font-weight:500;color:var(--ink)}
+.hd .cta{background:var(--ink);color:#fff;padding:9px 16px;border-radius:4px;font-size:13.5px;font-weight:600}
+@media(max-width:820px){.hd nav{display:none}}
+
+/* hero */
+.hero{text-align:center;padding:44px 0 10px}
+.hero h1{margin:0;font-size:clamp(30px,4vw,42px);color:var(--blue);font-weight:800;letter-spacing:-.02em}
+.hero p{margin:12px auto 0;max-width:62ch;font-size:15.5px;line-height:1.65}
+
+/* controls */
+.bar{background:var(--navy);border-radius:3px;padding:14px;display:flex;gap:10px;margin-top:22px}
+.bar input{flex:1;border:0;border-radius:2px;height:40px;padding:0 14px;font:400 15px var(--f);color:var(--ink)}
+.bar input:focus{outline:2px solid var(--amber)}
+.bar button{width:52px;border:0;border-radius:2px;background:var(--red);color:#fff;cursor:pointer;display:grid;place-items:center}
+.bar button svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2.4}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 15px;font:500 14px var(--f);
+  color:var(--ink);cursor:pointer;transition:.18s}
+.chip:hover{border-color:var(--blue2);color:var(--blue2)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:600}
+.chip.on.topic{background:var(--blue2);border-color:var(--blue2)}
+.sub{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.sub small{font:600 11px var(--f);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-right:2px}
+.chip.sm{padding:5px 11px;font-size:12.5px}
+.chip.sm.on{background:var(--amber);border-color:var(--amber);color:#2b1a00}
+
+.meta-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:26px 0 6px;flex-wrap:wrap}
+.count{font-size:14px;color:var(--mut)}
+.count b{color:var(--ink)}
+.sort{display:flex;gap:6px}
+.sort button{border:1px solid var(--line);background:#fff;border-radius:4px;padding:6px 12px;font:500 13px var(--f);
+  color:var(--body);cursor:pointer}
+.sort button.on{background:var(--soft);border-color:var(--blue2);color:var(--blue2);font-weight:600}
+
+/* hub header */
+.hub{display:none;margin-top:24px;border:1px solid var(--line);border-left:4px solid var(--blue2);border-radius:var(--r);
+  padding:24px 26px;background:linear-gradient(180deg,#f6f9ff,#fff)}
+.hub.on{display:block}
+.hub h2{margin:0;font-size:24px;color:var(--blue);letter-spacing:-.01em}
+.hub p{margin:10px 0 0;font-size:15px;line-height:1.65;max-width:75ch}
+.start{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.start b{font-size:14px;color:var(--ink)}
+.start ol{margin:10px 0 0;padding-left:20px}
+.start li{font-size:14.5px;color:var(--blue2);padding:4px 0;cursor:pointer}
+.start li:hover{text-decoration:underline}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin:22px 0 40px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.grid{grid-template-columns:1fr}}
+.card{cursor:pointer;display:flex;flex-direction:column}
+.thumb{position:relative;height:150px;border-radius:3px;overflow:hidden;border-top:4px solid var(--amber);
+  background:linear-gradient(120deg,#1a357c 0%,#2b52a8 55%,#3576e0 100%)}
+.thumb.red{background:linear-gradient(120deg,#8d1020,#c8102e)}
+.thumb.light{background:linear-gradient(120deg,#eef2fb,#d8e4f8)}
+.thumb .ep{position:absolute;left:12px;top:12px;background:var(--amber);color:#2b1a00;font:700 10px var(--f);
+  letter-spacing:.06em;padding:3px 8px;border-radius:2px}
+.thumb .tt{position:absolute;left:12px;top:38px;right:78px;color:#fff;font:700 14px/1.3 var(--f)}
+.thumb.light .tt{color:var(--blue)}
+.thumb .av{position:absolute;right:-10px;bottom:-14px;width:96px;height:96px;border-radius:50%;
+  background:radial-gradient(circle at 36% 30%,#f5d3b4,#c98f6a)}
+.tags{display:flex;gap:7px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.tag{font:700 10px var(--f);letter-spacing:.07em;padding:4px 9px;border-radius:99px;background:#eef2ff;color:#2f57c4}
+.tag.g{background:#e7f8f0;color:#137a4d}.tag.a{background:#fdf3e0;color:#9a6712}.tag.v{background:#f3ecfd;color:#6b46c1}
+.rt{font-size:12.5px;color:var(--mut)}
+.card h3{margin:9px 0 0;font-size:17.5px;line-height:1.35;color:var(--blue2);font-weight:700;letter-spacing:-.01em}
+.card:hover h3{color:var(--blue)}
+.card p{margin:8px 0 0;font-size:14px;line-height:1.6;color:var(--body)}
+.more{align-self:flex-start;margin-top:12px;border:1px solid #d6dce6;border-radius:2px;padding:7px 14px;font-size:13px;color:var(--ink)}
+.card:hover .more{border-color:var(--blue2);color:var(--blue2)}
+
+.empty{padding:50px 20px;text-align:center;color:var(--mut);font-size:15px}
+.empty b{display:block;color:var(--ink);font-size:17px;margin-bottom:8px}
+
+/* article */
+.post{display:none;padding:34px 0 60px}
+.post.on{display:block}
+.crumb{font-size:13px;color:var(--mut);margin-bottom:14px}
+.crumb a{color:var(--blue2);font-weight:500;cursor:pointer}
+.crumb span{margin:0 7px;color:#c8d0dc}
+.post h1{margin:0;font-size:clamp(26px,3.4vw,38px);color:var(--blue);letter-spacing:-.02em;line-height:1.2;max-width:22ch}
+.pmeta{display:flex;gap:12px;align-items:center;margin:14px 0 24px;flex-wrap:wrap;font-size:13.5px;color:var(--mut)}
+.pbody{max-width:72ch}
+.pbody p{font-size:16.5px;line-height:1.8;margin:0 0 18px}
+.pbody h4{font-size:20px;color:var(--ink);margin:30px 0 12px}
+.sign{margin:30px 0;border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:var(--r);
+  padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;background:var(--soft)}
+.sign b{font-size:16px;color:var(--ink)}
+.sign p{margin:4px 0 0;font-size:13.5px;color:var(--mut)}
+.sign a{background:var(--blue2);color:#fff;padding:11px 20px;border-radius:3px;font-size:14px;font-weight:600}
+.next h4{font-size:17px;color:var(--ink);margin:30px 0 4px}
+.next .row{display:flex;gap:12px;align-items:center;padding:14px 0;border-top:1px solid var(--line);cursor:pointer}
+.next .row:hover span.t{color:var(--blue)}
+.next .row span.t{font-size:15px;color:var(--blue2);font-weight:600}
+
+.ftr{border-top:1px solid var(--line);padding:26px 0;font-size:13px;color:var(--mut)}
+.note{background:#fffbe9;border:1px solid #f3e4b3;border-radius:var(--r);padding:14px 16px;font-size:13.5px;color:#6b5a22;margin:26px 0 0}
+</style>
+</head>
+<body>
+
+<div class="rib"><div class="wrap">
+  <span>Prototype</span>
+  <b>This is a working demo of the Content 10x blog after Option 1.</b>
+  Click the topics, search, open a post. The content is dummy text.
+  <a href="../answers.html#q06">Back to the proposal</a>
+</div></div>
+
+<header class="hd"><div class="wrap">
+  <div class="logo">Content <em>10x</em></div>
+  <nav><span>What we do</span><span>Industries</span><span>Our work</span><span>Resources</span></nav>
+  <span class="cta">Book a call</span>
+</div></header>
+
+<main class="wrap">
+  <section id="listView">
+    <div class="hero">
+      <h1>The Content 10x Blog</h1>
+      <p>Everything we publish on B2B content marketing, grouped by topic so you can start where you need to.</p>
+    </div>
+
+    <div class="bar">
+      <input id="q" type="search" placeholder="Search the Content 10x Blog" autocomplete="off">
+      <button id="qBtn" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+    </div>
+
+    <div class="chips" id="topics"></div>
+    <div class="sub"><small>Format</small><div class="chips" id="formats" style="margin-top:0"></div></div>
+    <div class="sub"><small>Stage</small><div class="chips" id="stages" style="margin-top:0"></div></div>
+
+    <div class="hub" id="hub"></div>
+
+    <div class="meta-row">
+      <div class="count" id="count"></div>
+      <div class="sort"><button data-sort="popular" class="on">Popular</button><button data-sort="latest">Latest</button></div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <div class="note">Every filter here changes the address bar, so a topic can be linked, shared and found in search.
+      Try <b>/blog/?topic=podcasting</b> in the address.</div>
+  </section>
+
+  <article class="post" id="postView"></article>
+</main>
+
+<footer class="ftr"><div class="wrap">Prototype built for the Content 10x proposal. Post titles are realistic, the body text is placeholder.</div></footer>
+
+<script>
+var TOPICS = [
+  {slug:'strategy', name:'Content Strategy', blurb:'Goals, messaging, positioning, planning and the decisions that come before any content gets made.'},
+  {slug:'repurposing', name:'Repurposing & Distribution', blurb:'Turning one asset into many, and getting each one in front of the people who should see it.'},
+  {slug:'podcasting', name:'B2B Podcasting', blurb:'Planning, recording, guests, production and turning a show into a content engine.'},
+  {slug:'employee', name:'Employee Led & Social', blurb:'LinkedIn, advocacy, founder led content and getting your team comfortable posting.'},
+  {slug:'ai', name:'AI & Search', blurb:'AI search, zero click, answer engines and how discovery is changing for B2B.'},
+  {slug:'measurement', name:'Measurement & ROI', blurb:'Metrics that matter, attribution, reporting and proving content is working.'},
+  {slug:'ops', name:'Content Ops & Team', blurb:'Team structure, workflows, tooling, briefs and the unglamorous parts that keep it moving.'}
+];
+var FORMATS = ['Podcast episode','Guide','How-to','Framework','Interview','Template'];
+var STAGES = ['Getting started','Scaling','Advanced'];
+
+function P(t,e,topic,fmt,stage,rt,ep,views,date,thumb){
+  return {title:t,ex:e,topic:topic,fmt:fmt,stage:stage,rt:rt,ep:ep,views:views,date:date,thumb:thumb||''};
+}
+var POSTS = [
+  P('What Is a B2B Content Strategy (And Why Does It Matter)?','Most teams have a content calendar and call it a strategy. Here is the difference, and why one of them compounds.','strategy','Guide','Getting started','12 min read','EPISODE 384',980,'2026-09-02'),
+  P('Five Components Every B2B Messaging Framework Needs','Messaging falls apart when it lives in five decks. This is the one page version that a whole company can use.','strategy','Framework','Scaling','9 min read','EPISODE 369',740,'2026-06-18','light'),
+  P('How Do You Align a B2B Content Strategy to Business Goals?','Content teams today rarely struggle with output. They struggle to show the work is pulling in the same direction as the business.','strategy','How-to','Advanced','8 min read','EPISODE 365',610,'2026-05-14'),
+  P('How to Choose Your B2B Content Channels and Formats','You do not have to be on every platform. Trying to be everywhere is the fastest way to dilute your content.','strategy','Guide','Getting started','11 min read','EPISODE 378',820,'2026-08-06'),
+
+  P('Why Content Repurposing and Distribution Should Be Built Into Your Strategy','Repurposing has a reputation problem. Done properly it turns a single piece into something that reaches your audience for months.','repurposing','How-to','Getting started','7 min read','EPISODE 379',1120,'2026-08-20'),
+  P('12 Ways to Repurpose a Webinar Recording','A ninety minute webinar is not one asset. This is the list we work through every time, in order of effort.','repurposing','How-to','Getting started','7 min read','EPISODE 351',1340,'2026-02-11'),
+  P('How to Turn One Event Sponsorship Into Six Months of Content','Badge scans and a tote bag are the standard souvenir from sponsoring an event. Jillian Hoefer walked away with six months of content instead.','repurposing','Podcast episode','Scaling','38 min listen','EPISODE 387',1510,'2026-09-16'),
+  P('The Ultimate Guide to Planning, Recording and Repurposing Expert Interviews','Everything from picking guests to the nine assets that come out of every recording.','repurposing','Guide','Scaling','16 min read','THE ULTIMATE GUIDE',990,'2026-04-02','light'),
+  P('A Repurposing Workflow Your Team Can Actually Follow','Who does what, in what order, with what deadline. Copy this and change the names.','repurposing','Template','Scaling','6 min read','EPISODE 358',530,'2026-03-19'),
+
+  P('Should Your B2B Brand Start a Podcast?','Before you book a studio or buy a microphone, four questions worth answering honestly about your audience and your team.','podcasting','Guide','Getting started','9 min read','EPISODE 340',870,'2025-11-06'),
+  P('Planning Your First Season, End to End','A season needs a spine. Here is how we plan twelve episodes that build on each other instead of twelve one off chats.','podcasting','Podcast episode','Getting started','38 min listen','EPISODE 344',760,'2025-12-04'),
+  P('Turning One Episode Into Ten Assets','The episode is the raw material, not the finished product. This is the exact list of what we make from every recording.','podcasting','How-to','Scaling','7 min read','EPISODE 351',1180,'2026-02-25'),
+  P('Booking Guests Your Buyers Want to Hear From','Big names are easy to want and hard to convert. Here is how to pick guests your actual buyers would clear an hour for.','podcasting','Guide','Scaling','11 min read','EPISODE 356',640,'2026-03-05'),
+  P('Inside a Podcast Led Content Programme','What it looks like when the show is the centre of the content engine rather than a side project nobody owns.','podcasting','Interview','Advanced','24 min listen','EPISODE 361',520,'2026-04-16'),
+  P('Measuring a B2B Show Without Vanity Metrics','Downloads are the easiest number to report and the least useful. These are the five we would track instead.','podcasting','Framework','Advanced','8 min read','EPISODE 366',480,'2026-05-28'),
+
+  P('Why Employee Led Content Is the Biggest B2B Advantage in 2026','Your people already have the audience. The hard part is making it easy enough that they keep posting.','employee','Podcast episode','Scaling','34 min listen','EPISODE 376',1420,'2026-07-23','red'),
+  P('Build a Weekly LinkedIn Rhythm With Your Team','Five prompts, one review slot and a shared doc. That is the whole system.','employee','Template','Getting started','6 min read','EPISODE 370',690,'2026-06-25'),
+  P('How Brand and Demand Stopped Fighting','Two teams, one funnel, and the meeting that fixed it.','employee','Interview','Advanced','27 min listen','EPISODE 363',410,'2026-05-07'),
+
+  P('Zero-Click, AI Search and the Last-Click Attribution Trap','A lot of marketers made peace with zero click search. Then AI search showed up and raised the stakes again.','ai','Podcast episode','Advanced','41 min listen','EPISODE 382',1290,'2026-08-27'),
+  P('How to Engineer Your Brand Into the Memory Layer of Every LLM','What actually gets a brand cited by an answer engine, and what is just noise.','ai','Guide','Advanced','13 min read','EPISODE 377',1050,'2026-07-30'),
+  P('AEO, One Year In: What the Data Killed and What Is Working','Twelve months of answer engine optimisation, and the three tactics that survived.','ai','Framework','Scaling','10 min read','EPISODE 371',830,'2026-06-11'),
+
+  P('How to Measure Your B2B Content Strategy (Without Drowning in Data)','You can be four months into a well built strategy and still have no idea whether it is working.','measurement','Framework','Scaling','9 min read','EPISODE 380',910,'2026-08-13'),
+  P('The Sales and Marketing Relationship: Why Most Teams Get It Wrong','Everyone agrees alignment matters. Almost nobody agrees on what it looks like on a Tuesday.','measurement','Podcast episode','Scaling','36 min listen','EPISODE 381',1080,'2026-09-09'),
+  P('Building the Case for Your Content Budget','How to make the argument for a channel mix you cannot fully prove yet.','measurement','How-to','Advanced','8 min read','EPISODE 368',470,'2026-06-04'),
+
+  P('How Does Competitor Analysis Fit Into Your B2B Content Strategy?','Competitor analysis is not a quarterly task. It is a habit, and a light one.','ops','How-to','Scaling','7 min read','EPISODE 367',560,'2026-05-21'),
+  P('The Content Brief That Ends the Rewrite Cycle','One page, six fields. Fill it in and the first draft comes back close.','ops','Template','Getting started','5 min read','EPISODE 359',720,'2026-03-26'),
+  P('How to Structure a Small B2B Content Team','Who to hire first, what to keep in house, and what agencies are genuinely better at.','ops','Guide','Scaling','12 min read','EPISODE 354',650,'2026-02-05')
+];
+
+var TAG = {'Podcast episode':'', 'Guide':'g', 'How-to':'a', 'Framework':'a', 'Interview':'v', 'Template':'g'};
+var state = {topic:'', formats:[], stage:'', q:'', sort:'popular', post:null};
+var $ = function(s){return document.querySelector(s)};
+
+function slugify(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+function topicOf(slug){for(var i=0;i<TOPICS.length;i++){if(TOPICS[i].slug===slug)return TOPICS[i]}return null}
+
+function chips(){
+  var t = '<button class="chip topic' + (state.topic?'':' on') + '" data-topic="">All topics</button>';
+  TOPICS.forEach(function(x){
+    var n = POSTS.filter(function(p){return p.topic===x.slug}).length;
+    t += '<button class="chip topic' + (state.topic===x.slug?' on':'') + '" data-topic="'+x.slug+'">'+x.name+' <span style="opacity:.6">'+n+'</span></button>';
+  });
+  $('#topics').innerHTML = t;
+  $('#formats').innerHTML = FORMATS.map(function(f){
+    return '<button class="chip sm' + (state.formats.indexOf(f)>-1?' on':'') + '" data-format="'+f+'">'+f+'</button>';
+  }).join('');
+  $('#stages').innerHTML = STAGES.map(function(s){
+    return '<button class="chip sm' + (state.stage===s?' on':'') + '" data-stage="'+s+'">'+s+'</button>';
+  }).join('');
+}
+
+function match(){
+  var q = state.q.trim().toLowerCase();
+  return POSTS.filter(function(p){
+    if(state.topic && p.topic!==state.topic) return false;
+    if(state.formats.length && state.formats.indexOf(p.fmt)<0) return false;
+    if(state.stage && p.stage!==state.stage) return false;
+    if(q && (p.title+' '+p.ex).toLowerCase().indexOf(q)<0) return false;
+    return true;
+  }).sort(function(a,b){
+    return state.sort==='latest' ? (a.date<b.date?1:-1) : (a.views<b.views?1:-1);
+  });
+}
+
+function cardHtml(p){
+  return '<div class="card" data-slug="'+slugify(p.title)+'">'
+    + '<div class="thumb '+p.thumb+'"><span class="ep">'+p.ep+'</span><span class="tt">'+p.title.slice(0,58)+'</span><span class="av"></span></div>'
+    + '<div class="tags"><span class="tag '+TAG[p.fmt]+'">'+p.fmt.toUpperCase()+'</span><span class="rt">'+p.rt+'</span></div>'
+    + '<h3>'+p.title+'</h3><p>'+p.ex+'</p><span class="more">Read More</span></div>';
+}
+
+function render(){
+  chips();
+  var list = match(), t = topicOf(state.topic);
+  var hub = $('#hub');
+  if(t){
+    var starts = POSTS.filter(function(p){return p.topic===t.slug}).slice(0,3);
+    hub.className = 'hub on';
+    hub.innerHTML = '<h2>'+t.name+'</h2><p>'+t.blurb+'</p>'
+      + '<div class="start"><b>Start here</b><ol>' + starts.map(function(p){
+          return '<li data-slug="'+slugify(p.title)+'">'+p.title+'</li>'}).join('') + '</ol></div>';
+  } else { hub.className = 'hub'; hub.innerHTML = ''; }
+
+  $('#count').innerHTML = '<b>'+list.length+'</b> post' + (list.length===1?'':'s')
+    + (t? ' in '+t.name : '') + (state.q? ' matching &ldquo;'+state.q+'&rdquo;':'');
+  $('#grid').innerHTML = list.length ? list.map(cardHtml).join('')
+    : '<div class="empty" style="grid-column:1/-1"><b>Nothing matches that yet</b>Try a different topic, or clear the search.</div>';
+}
+
+function openPost(slug){
+  var p = POSTS.filter(function(x){return slugify(x.title)===slug})[0];
+  if(!p) return;
+  state.post = slug;
+  var t = topicOf(p.topic);
+  var next = POSTS.filter(function(x){return x.topic===p.topic && slugify(x.title)!==slug}).slice(0,3);
+  $('#postView').innerHTML =
+    '<div class="crumb"><a data-go="list">Blog</a><span>/</span><a data-go="topic" data-topic="'+p.topic+'">'+t.name+'</a><span>/</span>'+p.fmt+'</div>'
+    + '<h1>'+p.title+'</h1>'
+    + '<div class="pmeta"><span class="tag '+TAG[p.fmt]+'">'+p.fmt.toUpperCase()+'</span><span>'+p.rt+'</span>'
+    + '<span>Updated '+new Date(p.date).toLocaleDateString('en-GB',{month:'long',year:'numeric'})+'</span></div>'
+    + '<div class="pbody"><p>'+p.ex+'</p>'
+    + '<p>This is placeholder text standing in for the real article. In the live blog this is your existing post, unchanged, '
+    + 'sitting inside the new layout. Nothing about the writing or the URL changes when a post is kept.</p>'
+    + '<h4>What changes on this page</h4>'
+    + '<p>The breadcrumb above tells the reader which topic they are in. The label and the length are shown before they start. '
+    + 'The date makes it clear the post is current. At the foot, three more posts from the same topic keep them reading.</p>'
+    + '<p>For posts marked update in the audit, this is where the refreshed sections go, with the same URL and a new updated date.</p></div>'
+    + '<div class="sign"><div><b>Get the next '+t.name.toLowerCase()+' post by email</b>'
+    + '<p>The prompt matches the topic being read, rather than one prompt for the whole blog.</p></div><a>Subscribe</a></div>'
+    + '<div class="next"><h4>Read next in '+t.name+'</h4>'
+    + next.map(function(x){return '<div class="row" data-slug="'+slugify(x.title)+'"><span class="tag '+TAG[x.fmt]+'">'+x.fmt.toUpperCase()+'</span><span class="t">'+x.title+'</span></div>'}).join('')
+    + '</div>';
+  $('#listView').style.display='none';
+  $('#postView').className='post on';
+  history.pushState({}, '', '?post='+slug);
+  window.scrollTo(0,0);
+}
+
+function showList(){
+  state.post=null;
+  $('#postView').className='post';
+  $('#listView').style.display='';
+  var qs = [];
+  if(state.topic) qs.push('topic='+state.topic);
+  if(state.q) qs.push('q='+encodeURIComponent(state.q));
+  history.pushState({}, '', qs.length?('?'+qs.join('&')):location.pathname);
+  render();
+}
+
+document.addEventListener('click', function(e){
+  var el;
+  if(el = e.target.closest('[data-topic]')){
+    if(el.dataset.go==='topic' || el.classList.contains('chip')){
+      state.topic = el.dataset.topic; state.q=''; $('#q').value='';
+      showList(); window.scrollTo({top:0,behavior:'smooth'}); return;
+    }
+  }
+  if(el = e.target.closest('[data-format]')){
+    var f = el.dataset.format, i = state.formats.indexOf(f);
+    if(i>-1) state.formats.splice(i,1); else state.formats.push(f);
+    render(); return;
+  }
+  if(el = e.target.closest('[data-stage]')){
+    state.stage = state.stage===el.dataset.stage ? '' : el.dataset.stage; render(); return;
+  }
+  if(el = e.target.closest('[data-sort]')){
+    state.sort = el.dataset.sort;
+    document.querySelectorAll('[data-sort]').forEach(function(b){b.classList.toggle('on', b===el)});
+    render(); return;
+  }
+  if(el = e.target.closest('[data-go="list"]')){ showList(); return; }
+  if(el = e.target.closest('[data-slug]')){ openPost(el.dataset.slug); return; }
+});
+
+$('#q').addEventListener('input', function(){ state.q = this.value; render(); });
+$('#qBtn').addEventListener('click', function(){ render(); });
+window.addEventListener('popstate', function(){ boot(); });
+
+function boot(){
+  var p = new URLSearchParams(location.search);
+  state.topic = p.get('topic') || '';
+  state.q = p.get('q') || '';
+  $('#q').value = state.q;
+  if(p.get('post')){ openPost(p.get('post')); }
+  else { $('#postView').className='post'; $('#listView').style.display=''; render(); }
+}
+boot();
+</script>
+</body>
+</html>
