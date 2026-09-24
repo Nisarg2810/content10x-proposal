@@ -381,14 +381,22 @@ def cta(title, sub, primary='Book a call to talk it through', secondary=None):
     </div></div>
   </section>'''
 
+DOODLE = '<span class="doodle {cls}">{text} <svg class="dd-arrow" viewBox="0 0 90 60"><path d="M4 8 C 30 4, 60 14, 70 44"/><path d="M58 38 L 71 46 L 76 32"/></svg></span>'
+
+
+def dd(text, cls=''):
+    return DOODLE.format(cls=cls, text=text)
+
+
 def opt_hero(num, dur, kind, title, word, lede, points):
     pl = ''.join(f'<span class="badge">{p}</span>' for p in points)
     return f'''
   <section class="sec" style="padding-top:140px">
     <div class="wrap">
       <nav class="kick rev" style="margin-bottom:22px"><a href="index.html" style="color:var(--t2)">Overview</a> <span style="color:var(--t3)">/</span> <span style="color:var(--t1)">Option {num}</span></nav>
-      <div class="g2" style="align-items:center;gap:48px">
-        <div class="rev">
+      <div class="g2" style="align-items:center;gap:48px;position:relative">
+        <div class="rev" style="position:relative">
+          {dd('live in ' + dur, 'd-opt')}
           <span class="kick"><b>OPTION {num}</b> {dur} &middot; {kind}</span>
           <h1 class="split" style="font-size:clamp(32px,4vw,54px);margin:18px 0 0">{title}</h1>
           <p class="lede">{lede}</p>
@@ -482,7 +490,7 @@ def index():
     <div class="wrap">
       <div class="sec-h rev"><span class="kick"><b>03</b> The three options</span><h2 class="split">Three ways to fix it.</h2>
         <p>They can be chosen on their own, or staged one after another. Each one includes the shared foundation above.</p></div>
-      <div class="opts stag">{oc}</div>
+      <div class="opts stag" style="position:relative">{dd('most start here', 'd-first')}{oc}</div>
     </div>
   </section>
 
@@ -987,6 +995,7 @@ def answers():
 
     body += '''
   <section class="sec" style="padding-top:0"><div class="wrap"><div class="panel pad rev" style="text-align:center;padding:46px 30px">
+    ''' + dd('open it, it works', 'd-try') + '''
     <span class="kick" style="justify-content:center"><b></b> Better than a video</span>
     <h2 class="chrome-text" style="font-size:clamp(23px,2.6vw,32px);margin-top:14px">Open the prototype and use it yourself.</h2>
     <p style="color:var(--t2);margin:14px auto 0;max-width:60ch">Topic filters, search inside a topic, hub pages, an article page with
