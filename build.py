@@ -44,7 +44,7 @@ def shell(page, title, desc, body):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap">
 <link rel="stylesheet" href="assets/site.css?v=1">
-<link rel="stylesheet" href="assets/mock.css?v=1">
+<link rel="stylesheet" href="assets/mock.css?v=1">\n<link rel="stylesheet" href="assets/film.css?v=2">
 <script>try{{var t=localStorage.getItem('c10-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}}catch(e){{document.documentElement.setAttribute('data-theme','dark');}}</script>
 </head>
 <body>
@@ -618,6 +618,147 @@ def option1():
         'The audit, the niche structure and the tagging carry straight into a full website later, so nothing is ever done twice.',
         'Talk through Option 1', ('Compare all three', 'index.html#compare'))
 
+# ------------------------------------------------ the transformation film
+
+FILM_POSTS = [('How to Turn One Event Sponsorship Into Six Months of Content', 'March 2019', 'PODCAST', ''),
+              ('The B2B Podcast Playbook: Planning Your First Season', 'August 2021', 'GUIDE', 'g'),
+              ('12 Ways to Repurpose a Webinar Recording', 'January 2020', 'HOW-TO', 'a'),
+              ('Why Your LinkedIn Strategy Needs Employee Advocacy', 'June 2023', 'HOW-TO', 'a'),
+              ('Content Marketing Benchmarks You Should Actually Track', 'May 2018', 'FRAMEWORK', ''),
+              ('Our Favourite Tools for Repurposing Video in 2022', 'October 2022', 'GUIDE', 'g')]
+
+FILM_POD = [('Should Your B2B Brand Start a Podcast?', '9 min read', 'GUIDE', 'g'),
+            ('Planning Your First Season, End to End', '38 min listen', 'PODCAST', ''),
+            ('Turning One Episode Into Ten Assets', '7 min read', 'HOW-TO', 'a'),
+            ('Booking Guests Your Buyers Want to Hear From', '11 min read', 'GUIDE', 'g'),
+            ('Inside a Podcast Led Content Programme', '24 min listen', 'INTERVIEW', ''),
+            ('Measuring a B2B Show Without Vanity Metrics', '8 min read', 'FRAMEWORK', 'a')]
+
+
+def fm_cards(posts, ident):
+    out = ''
+    for i, (title, meta, tag, tone) in enumerate(posts):
+        out += (f'<div class="fm-c" id="{ident}{i}"><span class="th"></span>'
+                f'<span class="tag {tone}">{tag}</span><b>{title}</b><small>{meta}</small></div>')
+    return out
+
+
+def film_stage():
+    nav = ('<div class="fm-nav"><b>Content <em>10x</em></b><span>What we do</span><span>Industries</span>'
+           '<span>Our work</span><span>Resources</span><span class="cta">Book a call</span></div>')
+    fil = ('<div class="fm-fil" id="fil"><span class="on" id="fAll">All</span><span>Content Strategy</span>'
+           '<span>Repurposing</span><span id="fPod">B2B Podcasting</span><span>Employee led</span>'
+           '<span>AI &amp; Search</span><span>Measurement</span><span>Ops</span></div>')
+
+    blog = (f'<div class="fm-v on" id="vBlog">{nav}'
+            '<div class="fm-h1">The Content 10x Blog</div>'
+            '<div class="fm-sub" id="bSub">Over 350 posts on B2B content marketing, repurposing and distribution.</div>'
+            f'<div class="fm-search">{SEARCH}<span id="bSearch">Search the blog...</span></div>'
+            f'{fil}'
+            f'<div class="fm-grid" id="gA">{fm_cards(FILM_POSTS, "c")}</div>'
+            '<div class="fm-more" id="bMore">...continues for 350+ posts, newest first, no grouping</div>'
+            '<div class="fm-start" id="bStart"><b>Start here: B2B Podcasting</b>'
+            '<p>New to this topic? These five are the place to begin.</p>'
+            '<span>Should your B2B brand start a podcast?</span><span>Planning your first season</span>'
+            '<span>Turning one episode into ten assets</span></div></div>')
+
+    hub = (f'<div class="fm-v" id="vHub">{nav}'
+           '<div class="fm-crumb">Blog <span>/</span> B2B Podcasting</div>'
+           '<div class="fm-h1" style="margin-top:6px">B2B Podcasting</div>'
+           '<p class="lead">Everything we have published on planning, recording, repurposing and measuring a B2B show. '
+           'Forty one posts, grouped so you can start anywhere.</p>'
+           '<div class="fm-start in" style="margin-top:12px"><b>Start here</b>'
+           '<p>Five posts, in order, if this is new to you.</p>'
+           '<span>Should your B2B brand start a podcast?</span><span>Planning your first season</span>'
+           '<span>Turning one episode into ten assets</span></div>'
+           f'<div class="fm-grid" style="margin-top:14px">{fm_cards(FILM_POD[:3], "h")}</div>'
+           '<div class="fm-sign"><b>Get the next podcasting post by email</b><span>Subscribe</span></div></div>')
+
+    post = (f'<div class="fm-v" id="vPost">{nav}'
+            '<div class="fm-crumb">Blog <span>/</span> B2B Podcasting <span>/</span> How-to</div>'
+            '<div class="fm-h1" style="margin-top:6px;font-size:20px">Turning One Episode Into Ten Assets</div>'
+            '<div class="fm-meta"><span class="fm-c tagged" style="border:0"><span class="tag a" style="margin:0">HOW-TO</span></span>'
+            '<span>7 min read</span><span>Updated September 2026</span></div>'
+            '<div class="fm-lines"><u></u><u></u><u class="s"></u><u></u><u></u><u class="s"></u></div>'
+            '<div class="fm-sign"><b>Get the next podcasting post by email</b><span>Subscribe</span></div>'
+            '<div class="fm-next"><h6>Read next in B2B Podcasting</h6>'
+            '<div><span class="tag g" style="font:600 9px var(--f-m);padding:3px 7px;border-radius:99px;background:#e7f8f0;color:#137a4d">GUIDE</span>'
+            'Booking guests your buyers want to hear from</div>'
+            '<div><span class="tag" style="font:600 9px var(--f-m);padding:3px 7px;border-radius:99px;background:#eef2ff;color:#3b5bd9">PODCAST</span>'
+            'Season planning for a show that converts</div>'
+            '<div><span class="tag a" style="font:600 9px var(--f-m);padding:3px 7px;border-radius:99px;background:#fdf3e0;color:#9a6712">HOW-TO</span>'
+            'Measuring a B2B show without vanity metrics</div></div></div>')
+
+    return f'''
+<div class="fm-cap" id="cap"></div>
+<div class="fm-badge" id="badge"><span id="b1">Seven niches</span><span id="b2">Format on every card</span>
+  <span id="b3">A hub per topic</span><span id="b4">Read next on every article</span></div>
+<div class="fm-win"><div class="fm-bar"><i></i><i></i><i></i><div class="fm-url" id="url">content10x.com/blog</div></div>
+  <div class="fm-body">{blog}{hub}{post}
+    <span class="fm-note n1" id="n1">Search is the only way in</span>
+    <span class="fm-note n2" id="n2">A podcast episode looks like a news post</span>
+    <span class="fm-note n3" id="n3">No next step for the reader</span>
+  </div></div>
+<div class="fm-cursor" id="tap"><span class="rp"></span></div>
+'''
+
+
+def film_script():
+    parts = []
+    for i, (t, m, tag, tone) in enumerate(FILM_POD):
+        at = round(3.2 + i * .18, 2)
+        safe = t.replace("'", "")
+        parts.append("[%s,0,html('#c%d b','%s')]" % (at, i, safe))
+        parts.append("[%s,0,html('#c%d small','%s')]" % (at, i, m))
+        parts.append("[%s,0,cls('#c%d .tag','tag %s')]" % (at, i, tone))
+        parts.append("[%s,0,html('#c%d .tag','%s')]" % (at, i, tag))
+    swap = ','.join(parts)
+    return """
+<script src="assets/film.js?v=2"></script>
+<script>
+var view=D.view,add=D.add,rem=D.rem,move=D.move,press=D.press,type=D.type,html=D.html,cls=D.cls,style=D.style;
+var STAGE = document.getElementById('filmStage').innerHTML;
+document.getElementById('filmStage').remove();
+
+D.scene('The blog today','One long list, newest first. Three hundred and fifty posts with no way in except search.',7,[
+ [0,0,view('vBlog')],[0,0,html('#url','content10x.com/blog')],
+ [.8,0,add('#n1')],[1.8,0,add('#n2')],[2.8,0,add('#n3')]]);
+
+D.scene('Seven topics appear','The same posts, grouped the way your readers think. Each one gets its own address.',6,[
+ [0,0,rem('#n1')],[0,0,rem('#n2')],[0,0,rem('#n3')],
+ [.4,0,add('#fil')],[.6,0,html('#bSub','Browse by topic, format or time. Or search inside a topic.')],
+ [1.2,0,add('#b1','in')],[2.2,0,html('#bMore','Every post now sits in exactly one topic')]]);
+
+D.scene('Every card says what it is','Format and reading time on the card, so nobody opens a podcast expecting an article.',6,[
+ [.3,0,add('#c0','tagged')],[.5,0,add('#c1','tagged')],[.7,0,add('#c2','tagged')],
+ [.9,0,add('#c3','tagged')],[1.1,0,add('#c4','tagged')],[1.3,0,add('#c5','tagged')],
+ [2,0,add('#b2','in')]]);
+
+D.scene('One click, one topic','Filters change the page and the address, so a topic can be shared, linked and found in search.',8,[
+ [.6,1,move('#fPod')],[1.7,0,press('#fPod')],[1.9,0,cls('#fPod','pick')],[1.9,0,cls('#fAll','')],
+ [2,0,html('#url','content10x.com/blog/podcasting')],[2,0,html('#bSearch','Search within B2B Podcasting')],
+ SWAP,
+ [4.6,0,add('#bStart','in')],[5.4,0,html('#bMore','41 posts in B2B Podcasting')]]);
+
+D.scene('Each topic gets a home','A hub page that explains the topic, points at the best five posts, and offers the right sign up.',7,[
+ [.2,0,view('vHub')],[.2,0,html('#url','content10x.com/blog/podcasting')],[1.4,0,add('#b3','in')]]);
+
+D.scene('And the article knows where it sits','Breadcrumb, format, reading time, the date it was updated, and what to read next inside the same topic.',7,[
+ [.2,0,view('vPost')],[.2,0,html('#url','content10x.com/blog/podcasting/one-episode-ten-assets')],
+ [1.6,0,add('#b4','in')]]);
+
+D.init({ stage: STAGE, chapters: ['Today','Topics','Cards','Filter','Hub','Article'],
+  note: 'A mock up of content10x.com/blog after Option 1. Real post titles, real topics, drawn in code.' });
+</script>
+""".replace('SWAP', swap)
+
+
+
+def film_block():
+    return f'''<div id="filmMount"></div>
+    <div id="filmStage" hidden>{film_stage()}</div>'''
+
+
 def qblock(num, question, lede, paras, mock, points=None, pts_title='In practice'):
     body = ''.join('<p>%s</p>' % p for p in paras)
     pl = ''
@@ -736,7 +877,7 @@ def answers():
          'your real post titles, your topics and your structure, laid out the way it would be on the day this goes live.',
          'Three things change for a reader. They can browse by topic instead of scrolling. They land on a hub that tells them where '
          'to start. And at the end of any article they are told what to read next, inside the same topic.'],
-        mk_blog_new(),
+        film_block(),
         ['The blog page, with one filter per niche and search inside a topic.',
          'A hub page per niche, with a Start here list.',
          'An article page that says what it is, how long it takes, and what comes next.'])
@@ -748,6 +889,7 @@ def answers():
   </div></section>
 '''
 
+    body += film_script()
     return body + cta('Happy to walk through any of this live.',
         'If something here does not match how your team works, that is useful to know before we start rather than after.',
         'Talk it through', ('Back to Option 1', 'option-1.html'))
