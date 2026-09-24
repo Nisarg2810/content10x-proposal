@@ -1081,6 +1081,7 @@ def investment():
         <div class="price-l">
           <span class="kick"><b></b> Total</span>
           <div class="price-n">&pound;3,600</div>
+          <p class="price-alt">or <b>&pound;3,400</b> paid in one payment</p>
           <p>For the whole of Option 1: the audit, the structure, the rebuilt blog, the category pages, the article
           pages, the redirects and the handover. Two to three weeks, plus two weeks of support.</p>
         </div>
@@ -1093,9 +1094,9 @@ def investment():
           </div>
           <div class="pay best">
             <span class="badge acc">Paid up front</span>
-            <h3>One payment, 5 percent off</h3>
-            <p>If you would rather settle it in one go at the start.</p>
-            <div class="pay-n">&pound;3,420</div>
+            <h3>One payment</h3>
+            <p>If you would rather settle it in one go at the start, the price comes down.</p>
+            <div class="pay-n">&pound;3,400</div>
           </div>
         </div>
       </div>
