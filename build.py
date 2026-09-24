@@ -10,7 +10,7 @@ SQ = '<svg viewBox="0 0 200 14" preserveAspectRatio="none"><path d="M2 8 Q 12 2 
 def sq(w):
     return f'<span class="nw"><span class="squig">{w}{SQ}</span></span>'
 
-NAV = [('index.html', 'Overview'), ('option-1.html', 'Option 1'), ('option-2.html', 'Option 2'), ('option-3.html', 'Option 3')]
+NAV = [('index.html', 'Overview'), ('option-1.html', 'Option 1'), ('answers.html', 'Your questions'), ('option-2.html', 'Option 2'), ('option-3.html', 'Option 3')]
 
 HEY = '''<div class="hey" id="hey" aria-hidden="true">
   <div class="hey-in">
@@ -238,6 +238,123 @@ def mk_phone():
             '<div class="c"><em>HOW-TO</em><i>One episode into ten assets</i></div></div></div>')
 
 # ---------------------------------------------------------------- shared page parts
+# ------------------------------------------------- answers to Amy's questions
+
+MONTHS = ['Jun 25', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan 26', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+HEIGHTS = [38, 44, 41, 52, 61, 58, 44, 66, 71, 64, 58, 69, 74, 70, 63, 72]
+
+
+def mk_window():
+    bars = ''.join(
+        '<div class="w16-b" style="--h:%d%%;--d:%dms"><i></i><span>%s</span></div>' % (h, i * 55, m)
+        for i, (m, h) in enumerate(zip(MONTHS, HEIGHTS)))
+    rows = ''.join(
+        '<div class="w16-r"><b>%s</b><span>%s</span></div>' % (a, b) for a, b in [
+            ('Clicks', 'How many people arrived from search'),
+            ('Impressions', 'How often it appeared in results'),
+            ('Average position', 'Where it ranks for its main queries'),
+            ('Top queries', 'What people were actually looking for')])
+    return frame('search.google.com/search-console',
+        '<div class="mk-page"><div class="mk-h1" style="font-size:1.5em">Performance, last 16 months</div>'
+        '<div class="mk-sub">Every post exported with its own numbers, the full window Search Console keeps.</div>'
+        '<div class="w16">' + bars + '</div>'
+        '<div class="w16-lb"><span>16 months is everything Google holds</span><span>Sep 2026</span></div>'
+        '<div class="w16-grid">' + rows + '</div></div>', cursor=False, nav=False,
+        caption='Sixteen months of real search data per post. Anything older is judged on what it says, not on numbers that no longer exist.')
+
+
+def sc_row(name, score, tone, note):
+    return ('<div class="sc-r"><div class="sc-t"><b>%s</b><span class="sc-p %s">%s</span></div>'
+            '<div class="sc-bar"><i class="%s" style="--w:%s"></i></div><small>%s</small></div>'
+            % (name, tone, score, tone, score.split('/')[0].strip() + '0%', note))
+
+
+def mk_test():
+    return frame('content10x.com/audit/post-1042',
+        '<div class="mk-page"><span class="mk-tag">POST UNDER REVIEW</span>'
+        '<div class="mk-h1" style="font-size:1.35em;margin-top:.35em">12 Ways to Repurpose a Webinar Recording</div>'
+        '<div class="mk-sub">Published January 2020 &middot; 1,410 words &middot; 340 clicks in 16 months</div>'
+        '<div class="sc">'
+        + sc_row('Still relevant', '8/10', 'g', 'People still search this. 61 clicks last month, rising.')
+        + sc_row('Quality today', '5/10', 'a', 'Thin in the middle, no examples, no images, reads like 2020.')
+        + sc_row('How well it has aged', '3/10', 'r', 'Names three tools that no longer exist. Screenshots are old.')
+        + '</div>'
+        '<div class="sc-out"><span class="sc-dec">Decision: Update</span>'
+        '<p>Traffic says keep it. Quality says rewrite the middle. Nothing about the URL changes, so nothing at risk.</p></div>'
+        '</div>', cursor=False, nav=False,
+        caption='Every post scored on the same three tests, with the evidence written next to the score. You sign off the list, not each post.')
+
+
+def mk_flow():
+    def lane(tag, tone, title, steps, note):
+        li = ''.join('<li>%s</li>' % s for s in steps)
+        return ('<div class="fl-l"><span class="mk-tag %s">%s</span><b>%s</b><ol>%s</ol>'
+                '<small>%s</small></div>' % (tone, tag, title, li, note))
+    return frame('content10x.com/audit/workflow',
+        '<div class="mk-page"><div class="mk-h1" style="font-size:1.4em">What happens after the decision</div>'
+        '<div class="mk-sub">Four outcomes, four routes. Two of them need you, two of them do not.</div>'
+        '<div class="fl">'
+        + lane('KEEP', 'g', 'Keep as it is', ['Tagged with its niche and formats.', 'Appears in the right filters and hub.', 'No writing needed.'], 'About half the posts land here.')
+        + lane('UPDATE', 'a', 'Update in place', ['I list exactly what is wrong: old tools, missing examples, weak intro.', 'Your writer fixes those parts, or I do the structural edits and you approve.', 'Same URL, refreshed date, internal links added.'], 'You choose who writes. The list is specific, never "make it better".')
+        + lane('MERGE', 'v', 'Merge into one', ['Two or three posts on the same question become one strong post.', 'The strongest URL survives and grows.', 'The others redirect into it with a 301, so their traffic follows.'], 'Nothing is thrown away. Sections are moved, not deleted.')
+        + lane('REMOVE', '', 'Retire quietly', ['Checked for backlinks and traffic first.', 'Redirected to the closest hub, never left to 404.', 'Kept in the sheet in case you want it back.'], 'A post is only removed when nothing points at it.')
+        + '</div></div>', cursor=False, nav=False,
+        caption='Update and merge are the only two that need writing. You see the exact list of changes before anyone starts.')
+
+
+def mk_tagging():
+    chips = lambda items, cls='': ''.join('<span class="%s">%s</span>' % (cls if i == 0 else '', t) for i, t in enumerate(items))
+    return frame('content10x.com/admin/post/1042',
+        '<div class="mk-page"><div class="mk-h1" style="font-size:1.35em">How one post gets filed</div>'
+        '<div class="mk-sub">One niche, then as many tags as it earns. Ten seconds per post, once.</div>'
+        '<div class="tg">'
+        '<div class="tg-r"><b>Niche</b><small>Pick one. This drives the filters and the hub page.</small>'
+        '<div class="tg-c">' + chips(['Repurposing &amp; Distribution', 'B2B Podcasting', 'Content Strategy', 'AI &amp; Search'], 'on') + '</div></div>'
+        '<div class="tg-r"><b>Format</b><small>What kind of thing is it, so the card can say so.</small>'
+        '<div class="tg-c">' + chips(['How-to', 'Podcast episode', 'Guide', 'Interview', 'Framework'], 'on') + '</div></div>'
+        '<div class="tg-r"><b>Industry</b><small>Only when the post is genuinely about one.</small>'
+        '<div class="tg-c">' + chips(['SaaS', 'Agencies', 'Professional services', 'Not specific'], '') + '</div></div>'
+        '<div class="tg-r"><b>Stage</b><small>Who it is for. Powers Start here lists.</small>'
+        '<div class="tg-c">' + chips(['Getting started', 'Scaling', 'Advanced'], 'on') + '</div></div>'
+        '</div>'
+        '<div class="tg-out">This post now appears under Repurposing, in the How-to filter, and first in the Start here list for beginners.</div>'
+        '</div>', cursor=False, nav=False,
+        caption='The niche is a single choice, which is what keeps the navigation clean. Tags are generous, which is what makes search useful.')
+
+
+def mk_design():
+    sw = ''.join('<i style="background:%s"></i>' % c for c in ['#1B1F3B', '#3B5BDB', '#F5A524', '#F1F3F7', '#0B0D18'])
+    return frame('figma.com/content10x-blog',
+        '<div class="mk-page"><div class="mk-h1" style="font-size:1.35em">How the look gets decided</div>'
+        '<div class="mk-sub">Three short rounds. You only ever choose between things you can see.</div>'
+        '<div class="dz">'
+        '<div class="dz-s"><span>ROUND 1</span><b>Direction</b><p>Two versions of the blog page, same content, different feel. You pick one and say what to change.</p></div>'
+        '<div class="dz-s"><span>ROUND 2</span><b>The pieces</b><p>Card, filter bar, hub header, article page. Agreed one by one, so nothing is a surprise later.</p></div>'
+        '<div class="dz-s"><span>ROUND 3</span><b>Sign off</b><p>Desktop and mobile, real posts in it, ready to build. After this the design does not move.</p></div>'
+        '</div>'
+        '<div class="dz-sys"><div class="dz-col"><small>YOUR COLOURS, KEPT</small><div class="dz-sw">' + sw + '</div></div>'
+        '<div class="dz-col"><small>TYPE SCALE</small><div class="dz-ty"><b>Aa</b><span>Aa</span><em>Aa</em></div></div>'
+        '<div class="dz-col"><small>CARD</small><div class="dz-card"><i></i><u></u><u class="s"></u></div></div></div>'
+        '</div>', cursor=False, nav=False,
+        caption='It stays inside the Content 10x brand. This is a tidy up of the blog, not a rebrand.')
+
+
+def mk_after_post():
+    rel = ''.join('<div class="pst-r"><span class="mk-tag %s">%s</span><b>%s</b></div>' % (t, g, n) for g, t, n in [
+        ('GUIDE', 'g', 'The complete guide to B2B content repurposing'),
+        ('HOW-TO', 'a', 'Turn one webinar into ten assets'),
+        ('PODCAST', '', 'Season planning for a B2B show')])
+    return frame('content10x.com/blog/repurposing/webinar-to-ten-assets',
+        '<div class="mk-page"><div class="pst-crumb">Blog <span>/</span> Repurposing &amp; Distribution <span>/</span> How-to</div>'
+        '<div class="mk-h1" style="font-size:1.4em">12 Ways to Repurpose a Webinar Recording</div>'
+        '<div class="pst-meta"><span class="mk-tag a">HOW-TO</span><span>7 min read</span><span>Updated September 2026</span></div>'
+        '<div class="pst-body"><u></u><u></u><u class="s"></u><u></u><u class="s"></u></div>'
+        '<div class="pst-cta"><b>Get the next repurposing post by email</b><span>Subscribe</span></div>'
+        '<div class="pst-h">Read next in Repurposing</div>' + rel +
+        '</div>', cursor=False,
+        caption='Every article now says which niche it belongs to, how long it takes, when it was last updated, and what to read next.')
+
+
 def phase(num, label, title, intro, do, get):
     dl = ''.join(f'<li>{x}</li>' for x in do)
     gl = ''.join(f'<li>{x}</li>' for x in get)
@@ -501,6 +618,141 @@ def option1():
         'The audit, the niche structure and the tagging carry straight into a full website later, so nothing is ever done twice.',
         'Talk through Option 1', ('Compare all three', 'index.html#compare'))
 
+def qblock(num, question, lede, paras, mock, points=None, pts_title='In practice'):
+    body = ''.join('<p>%s</p>' % p for p in paras)
+    pl = ''
+    if points:
+        pl = ('<div class="qa-pts"><h4>%s</h4><ul class="ticks">%s</ul></div>'
+              % (pts_title, ''.join('<li>%s</li>' % p for p in points)))
+    return f"""
+  <section class="sec qa" id="q{num}">
+    <div class="wrap">
+      <div class="qa-h rev"><span class="kick"><b>{num}</b> Your question</span>
+        <h2 class="split">{question}</h2>
+        <p class="lede">{lede}</p></div>
+      <div class="qa-b rev"><div class="qa-copy">{body}{pl}</div></div>
+      <div class="rev">{mock}</div>
+    </div>
+  </section>"""
+
+
+def answers():
+    body = f'''
+  <section class="hero">
+    <div class="wrap">
+      <span class="kick"><b>01</b> Option 1, in detail</span>
+      <h1 class="split">Your questions, {sq('answered')} one at a time.</h1>
+      <p class="lede">You asked exactly the right things. Below is how each part actually works, with a picture of it
+      rather than a promise. Nothing here changes the shape of Option 1, it is the same work described properly.</p>
+      <div class="chips" style="margin-top:26px">
+        <span><a href="#q01">Data window</a></span><span><a href="#q02">The three tests</a></span>
+        <span><a href="#q03">Update and merge</a></span><span><a href="#q04">Filters and categories</a></span>
+        <span><a href="#q05">Design process</a></span><span><a href="#q06">What it will look like</a></span>
+      </div>
+    </div>
+  </section>
+'''
+
+    body += qblock('01', 'How far back does the data go?',
+        'Sixteen months, because that is everything Google keeps. Older posts are judged on what they say, not on numbers nobody has.',
+        ['Search Console holds sixteen months of performance history and no more. Every post in the audit gets its own row of that '
+         'data: clicks, impressions, average position and the queries people actually used to find it.',
+         'That window is enough to see the thing that matters, which is direction. A post from 2018 that still picks up steady '
+         'clicks today is earning its place. A post from last year that has never been found is not.',
+         'If Google Analytics goes back further on your side, I will use it, and it makes the picture richer. If it does not, '
+         'nothing is lost. Posts with no numbers are still read and judged on relevance and quality, and I will tell you plainly '
+         'when a decision is based on judgement rather than data.'],
+        mk_window(),
+        ['Every post gets its own performance row, exported once at the start.',
+         'Posts with meaningful backlinks are flagged separately, whatever their traffic.',
+         'Anything older than the window is marked so you can see which calls were made on judgement.'])
+
+    body += qblock('02', 'What are the relevance, quality and dated tests?',
+        'Three questions asked of every post, in the same order, with the evidence written down next to the answer.',
+        ['<b>Still relevant.</b> Does anyone still want this? Search demand for the topic, the clicks the post gets now, '
+         'and whether the question it answers is still a question your buyers ask.',
+         '<b>Quality today.</b> Held against what you would publish this week, not against 2019. Depth, examples, structure, '
+         'whether it reaches a point, and whether it sounds like Content 10x.',
+         '<b>How well it has aged.</b> Your dated test, scored the other way up so a low number always means trouble. Named tools '
+         'that have changed or closed, screenshots of old interfaces, statistics with a year in them, advice that is simply no longer '
+         'true. This is the test that decides how much work an update really is.',
+         'The three answers together give the decision. High relevance with low quality means update. Low relevance with high '
+         'quality usually means merge into something stronger. Low on all three means retire.'],
+        mk_test(),
+        ['You see the scores and the reason, not just the verdict.',
+         'Anything I am unsure about is marked for your call rather than decided quietly.',
+         'You sign off the whole list once, before a single post is touched.'])
+
+    body += qblock('03', 'What does the update or merge process actually look like?',
+        'Two of the four outcomes need writing. For those two, you get a specific list of changes before anyone starts.',
+        ['For an <b>update</b>, I do not write "improve this post". I write what is wrong with it: the intro takes four paragraphs '
+         'to reach the point, the tool list names two products that no longer exist, there are no examples after the third heading. '
+         'Your writer can work straight from that list, or I can do the structural edits and you approve them. The URL never changes, '
+         'so there is no risk to its rankings, and the updated date is refreshed so readers can see it is current.',
+         'For a <b>merge</b>, two or three posts answering the same question become one post worth reading. The strongest URL survives, '
+         'usually the one with the most links and history. The others are folded into it, section by section, and then redirected to it '
+         'with a 301 so their traffic and their links flow into the survivor rather than disappearing.',
+         'Nothing is deleted. A retired post is redirected to the closest hub and kept in the sheet, so you can bring it back if you want it.'],
+        mk_flow(),
+        ['Every update comes with a written list of the exact changes.',
+         'Every merge comes with a before and after view of which URL survives.',
+         'You decide who writes: your team, or me for the structural work.'],
+        'What you get on each one')
+
+    body += qblock('04', 'How do the filters and categories get decided?',
+        'You pick the seven niches, I file every post against them. One niche per post, then as many tags as it earns.',
+        ['The niches come out of the audit, not out of my head. Once 350 posts are in a sheet with their topics visible, the natural '
+         'groupings are obvious, and I bring you a proposed list with the post count in each. You cut, rename and merge until it '
+         'sounds like Content 10x. That list is then fixed, because the navigation depends on it.',
+         'Each post gets exactly one niche. That single choice is what keeps the blog easy to browse, because a post can only ever '
+         'live in one place. It is also what makes the hub pages possible.',
+         'Tags are different. A post can carry as many as it deserves: the format, the industry if it is genuinely about one, and the '
+         'stage the reader is at. Tags power the finer filtering and the Start here lists, and they never affect the main navigation, '
+         'so you can add new ones later without anything breaking.',
+         'Your team gets a one page guide so new posts are filed the same way, which is the part that keeps this from drifting in six months.'],
+        mk_tagging(),
+        ['You approve the niche list before any post is filed.',
+         'One niche per post, unlimited tags.',
+         'A written guide for your team, so new posts land in the right place.'])
+
+    body += qblock('05', 'What is the design process for the theme?',
+        'Three short rounds, and you only ever choose between things you can see on screen.',
+        ['This is a tidy up of the blog inside your current site, so your brand does not change. Same colours, same logo, same voice. '
+         'What changes is the blog page, the hub pages and the article layout.',
+         'Round one is direction: two versions of the blog page with your real posts in them, different in feel but both recognisably '
+         'Content 10x. You pick one and tell me what to change.',
+         'Round two is the pieces: the post card, the filter bar, the hub header and the article page, agreed one at a time so nothing '
+         'is a surprise at the end.',
+         'Round three is sign off: desktop and mobile, real content, ready to build. After that the design stops moving, which is what '
+         'keeps the two to three weeks honest.'],
+        mk_design(),
+        ['Nothing is designed in isolation, every screen uses your real posts.',
+         'Mobile is designed at the same time, not adapted afterwards.',
+         'Once signed off, the design is frozen so the build can be predictable.'])
+
+    body += qblock('06', 'Can I see an example of the finished result?',
+        'Rather than show you somebody else, here is your own blog after the work, drawn out screen by screen.',
+        ['Past work for other clients would tell you how their site looks. This tells you how yours will. Every screen below uses '
+         'your real post titles, your topics and your structure, laid out the way it would be on the day this goes live.',
+         'Three things change for a reader. They can browse by topic instead of scrolling. They land on a hub that tells them where '
+         'to start. And at the end of any article they are told what to read next, inside the same topic.'],
+        mk_blog_new(),
+        ['The blog page, with one filter per niche and search inside a topic.',
+         'A hub page per niche, with a Start here list.',
+         'An article page that says what it is, how long it takes, and what comes next.'])
+
+    body += f'''
+  <section class="sec" style="padding-top:0"><div class="wrap">
+    <div class="rev">{mk_hub()}</div>
+    <div class="rev" style="margin-top:40px">{mk_after_post()}</div>
+  </div></section>
+'''
+
+    return body + cta('Happy to walk through any of this live.',
+        'If something here does not match how your team works, that is useful to know before we start rather than after.',
+        'Talk it through', ('Back to Option 1', 'option-1.html'))
+
+
 # ---------------------------------------------------------------- option 2
 def option2():
     body = opt_hero('2', '3 to 4 weeks', 'Full rebuild', f'A new website, built fast and then {sq("hardened by hand")}.',
@@ -650,7 +902,8 @@ def option3():
         'Thirty days from kick off to a live site, with a CMS your team can run without a developer.',
         'Talk through Option 3', ('Compare all three', 'index.html#compare'))
 
-PAGES = [('index.html', 'Website and blog proposal for Content 10x', 'Three options to restructure the Content 10x blog and website, with one shared content structure.', index),
+PAGES = [('answers.html', 'Your questions, answered, Content 10x proposal', 'How the audit, the tests, the update and merge process, the filters and the design rounds actually work, with a picture of each.', answers),
+         ('index.html', 'Website and blog proposal for Content 10x', 'Three options to restructure the Content 10x blog and website, with one shared content structure.', index),
          ('option-1.html', 'Option 1: Blog restructuring, 2 to 3 weeks', 'Reorganise the blog inside the current WordPress site: audit, niches, filters and hub pages.', option1),
          ('option-2.html', 'Option 2: AI assisted new site, 3 to 4 weeks', 'A complete new website built fast with AI assisted development, then reviewed and hardened by hand.', option2),
          ('option-3.html', 'Option 3: Custom site and CMS, 30 days', 'A custom designed website with a CMS modelled on how your team publishes.', option3)]
