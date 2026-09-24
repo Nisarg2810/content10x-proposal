@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the Content 10x proposal site."""
 import pathlib
+import html as H
 OUT = pathlib.Path(__file__).parent
 
 SEARCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>'
@@ -44,7 +45,7 @@ def shell(page, title, desc, body):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap">
 <link rel="stylesheet" href="assets/site.css?v=1">
-<link rel="stylesheet" href="assets/mock.css?v=1">\n<link rel="stylesheet" href="assets/film.css?v=2">
+<link rel="stylesheet" href="assets/mock.css?v=1">\n<link rel="stylesheet" href="assets/film.css?v=5">
 <script>try{{var t=localStorage.getItem('c10-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}}catch(e){{document.documentElement.setAttribute('data-theme','dark');}}</script>
 </head>
 <body>
@@ -620,27 +621,64 @@ def option1():
 
 # ------------------------------------------------ the transformation film
 
-FILM_POSTS = [('How to Turn One Event Sponsorship Into Six Months of Content', 'March 2019', 'PODCAST', ''),
-              ('The B2B Podcast Playbook: Planning Your First Season', 'August 2021', 'GUIDE', 'g'),
-              ('12 Ways to Repurpose a Webinar Recording', 'January 2020', 'HOW-TO', 'a'),
-              ('Why Your LinkedIn Strategy Needs Employee Advocacy', 'June 2023', 'HOW-TO', 'a'),
-              ('Content Marketing Benchmarks You Should Actually Track', 'May 2018', 'FRAMEWORK', ''),
-              ('Our Favourite Tools for Repurposing Video in 2022', 'October 2022', 'GUIDE', 'g')]
+FILM_POSTS = [('How to Turn One Event Sponsorship Into Six Months of Content with Jillian Hoefer',
+               'Badge scans and a tote bag are the standard souvenir from sponsoring an event. Jillian Hoefer walked away with six months of content instead.',
+               'EPISODE 387', 'How to Turn One Event Sponsorship Into Six Months of Content', 'PODCAST', '', '38 min listen'),
+              ('Zero-Click, AI Search, and the Last-Click Attribution Trap with Amanda Natividad',
+               'A lot of marketers have made peace with zero click search by now. Then AI search showed up and raised the stakes again.',
+               'EPISODE 382', 'Zero-Click, AI Search and the Attribution Trap', 'PODCAST', '', '41 min listen'),
+              ('The Sales and Marketing Relationship: Why Most Teams Get It Wrong and How to Fix It',
+               'Sales and marketing spend a lot of time talking about alignment. It is easy to agree that it matters. It is much harder to make it happen.',
+               'EPISODE 381', 'The Sales and Marketing Relationship', 'PODCAST', '', '36 min listen'),
+              ('How to Measure Your B2B Content Strategy (Without Drowning in Data)',
+               'You can be four months into implementing a well built content strategy, with clear goals and a schedule you never miss, and still have no idea whether it is working.',
+               'EPISODE 380', 'How to Measure Your B2B Content Strategy', 'FRAMEWORK', 'a', '9 min read'),
+              ('Why Content Repurposing and Distribution Should Be Built Into Your B2B Content Strategy',
+               'Repurposing has a reputation problem. Most people hear it and immediately think copy paste, checkbox marketing, the same LinkedIn post going out on six platforms.',
+               'EPISODE 379', 'Why Repurposing Belongs In Your Strategy', 'HOW-TO', 'a', '7 min read'),
+              ('How to Choose Your B2B Content Channels and Formats',
+               'You do not have to be on every platform. Trying to be everywhere is the fastest way to dilute your content. And yet, that is often what happens.',
+               'EPISODE 378', 'How to Choose Your Channels and Formats', 'GUIDE', 'g', '11 min read')]
 
-FILM_POD = [('Should Your B2B Brand Start a Podcast?', '9 min read', 'GUIDE', 'g'),
-            ('Planning Your First Season, End to End', '38 min listen', 'PODCAST', ''),
-            ('Turning One Episode Into Ten Assets', '7 min read', 'HOW-TO', 'a'),
-            ('Booking Guests Your Buyers Want to Hear From', '11 min read', 'GUIDE', 'g'),
-            ('Inside a Podcast Led Content Programme', '24 min listen', 'INTERVIEW', ''),
-            ('Measuring a B2B Show Without Vanity Metrics', '8 min read', 'FRAMEWORK', 'a')]
+FILM_POD = [('Should Your B2B Brand Start a Podcast?',
+             'Before you book a studio or buy a microphone, there are four questions worth answering honestly about your audience and your team.',
+             'EPISODE 340', 'Should Your B2B Brand Start a Podcast?', 'GUIDE', 'g', '9 min read'),
+            ('Planning Your First Season, End to End',
+             'A season needs a spine. Here is how we plan twelve episodes that build on each other instead of twelve one off conversations.',
+             'EPISODE 344', 'Planning Your First Season', 'PODCAST', '', '38 min listen'),
+            ('Turning One Episode Into Ten Assets',
+             'The episode is the raw material, not the finished product. This is the exact list of what we make from every recording.',
+             'EPISODE 351', 'One Episode Into Ten Assets', 'HOW-TO', 'a', '7 min read'),
+            ('Booking Guests Your Buyers Want to Hear From',
+             'Big names are easy to want and hard to convert. Here is how to pick guests your actual buyers would clear an hour for.',
+             'EPISODE 356', 'Booking Guests Your Buyers Want', 'GUIDE', 'g', '11 min read'),
+            ('Inside a Podcast Led Content Programme',
+             'What it looks like when the show is the centre of the content engine rather than a side project nobody owns.',
+             'EPISODE 361', 'Inside a Podcast Led Programme', 'INTERVIEW', '', '24 min listen'),
+            ('Measuring a B2B Show Without Vanity Metrics',
+             'Downloads are the easiest number to report and the least useful. These are the five we would track instead.',
+             'EPISODE 366', 'Measuring a Show Without Vanity Metrics', 'FRAMEWORK', 'a', '8 min read')]
+
+POPULAR = [('EPISODE 384', 'What is a B2B Content Strategy (And Why Does it Matter)?', ''),
+           ('THE ULTIMATE GUIDE', 'Planning, Recording and Repurposing Expert Interviews', 'light'),
+           ('EPISODE 376', 'Why Employee Led Content Is the Biggest B2B Advantage in 2026', 'red'),
+           ('THE ULTIMATE GUIDE', 'Planning, Promoting and Repurposing B2B Webinars', 'light'),
+           ('EPISODE 374', 'The Only Type of B2B How-To Guide Worth Creating', ''),
+           ('EPISODE 372', 'Why Content Repurposing and Distribution Should Be Built In', '')]
 
 
 def fm_cards(posts, ident):
     out = ''
-    for i, (title, meta, tag, tone) in enumerate(posts):
-        out += (f'<div class="fm-c" id="{ident}{i}"><span class="th"></span>'
-                f'<span class="tag {tone}">{tag}</span><b>{title}</b><small>{meta}</small></div>')
+    for i, (title, excerpt, ep, thumb, tag, tone, rt) in enumerate(posts):
+        out += (f'<div class="fm-c" id="{ident}{i}"><span class="th"><em>{ep}</em><u>{thumb}</u></span>'
+                f'<span class="tag {tone}">{tag}</span><b>{title}</b>'
+                f'<span class="rt">{rt}</span><small>{excerpt}</small>'
+                f'<span class="more">Read More</span></div>')
     return out
+
+
+def fm_tiles():
+    return ''.join(f'<div class="fm-t {cls}"><b>{title}</b><em>{ep}</em><i></i></div>' for ep, title, cls in POPULAR)
 
 
 def film_stage():
@@ -649,22 +687,25 @@ def film_stage():
     fil = ('<div class="fm-fil" id="fil"><span class="on" id="fAll">All</span><span>Content Strategy</span>'
            '<span>Repurposing</span><span id="fPod">B2B Podcasting</span><span>Employee led</span>'
            '<span>AI &amp; Search</span><span>Measurement</span><span>Ops</span></div>')
+    band = (f'<div class="fm-band"><i id="bSearch">Search the Content 10x Blog</i><span>{SEARCH}</span></div>')
 
-    blog = (f'<div class="fm-v on" id="vBlog">{nav}'
-            '<div class="fm-h1">The Content 10x Blog</div>'
-            '<div class="fm-sub" id="bSub">Over 350 posts on B2B content marketing, repurposing and distribution.</div>'
-            f'<div class="fm-search">{SEARCH}<span id="bSearch">Search the blog...</span></div>'
-            f'{fil}'
+    blog = (f'<div class="fm-v on" id="vBlog"><div class="fm-scroll" id="scroll">{nav}'
+            '<div class="fm-top"><h1>The Content 10x Blog</h1>'
+            '<p id="bSub">Over 350 blog posts on B2B content marketing, repurposing and distribution.<br>'
+            'Discover a new post every 2 weeks.</p></div>'
+            f'<div class="fm-pop" id="pop"><h3>Take a look at some of our most popular posts</h3>'
+            f'<div class="fm-tiles">{fm_tiles()}</div></div>'
+            '<div class="fm-all" id="bAll">All posts</div>'
+            f'{band}{fil}'
             f'<div class="fm-grid" id="gA">{fm_cards(FILM_POSTS, "c")}</div>'
-            '<div class="fm-more" id="bMore">...continues for 350+ posts, newest first, no grouping</div>'
             '<div class="fm-start" id="bStart"><b>Start here: B2B Podcasting</b>'
             '<p>New to this topic? These five are the place to begin.</p>'
             '<span>Should your B2B brand start a podcast?</span><span>Planning your first season</span>'
-            '<span>Turning one episode into ten assets</span></div></div>')
+            '<span>Turning one episode into ten assets</span></div></div></div>')
 
-    hub = (f'<div class="fm-v" id="vHub">{nav}'
+    hub = (f'<div class="fm-v" id="vHub"><div class="fm-scroll">{nav}'
            '<div class="fm-crumb">Blog <span>/</span> B2B Podcasting</div>'
-           '<div class="fm-h1" style="margin-top:6px">B2B Podcasting</div>'
+           '<div class="fm-h1" style="margin-top:6px;color:#1F3C88">B2B Podcasting</div>'
            '<p class="lead">Everything we have published on planning, recording, repurposing and measuring a B2B show. '
            'Forty one posts, grouped so you can start anywhere.</p>'
            '<div class="fm-start in" style="margin-top:12px"><b>Start here</b>'
@@ -672,13 +713,13 @@ def film_stage():
            '<span>Should your B2B brand start a podcast?</span><span>Planning your first season</span>'
            '<span>Turning one episode into ten assets</span></div>'
            f'<div class="fm-grid" style="margin-top:14px">{fm_cards(FILM_POD[:3], "h")}</div>'
-           '<div class="fm-sign"><b>Get the next podcasting post by email</b><span>Subscribe</span></div></div>')
+           '<div class="fm-sign"><b>Get the next podcasting post by email</b><span>Subscribe</span></div></div></div>')
 
-    post = (f'<div class="fm-v" id="vPost">{nav}'
+    post = (f'<div class="fm-v" id="vPost"><div class="fm-scroll">{nav}'
             '<div class="fm-crumb">Blog <span>/</span> B2B Podcasting <span>/</span> How-to</div>'
-            '<div class="fm-h1" style="margin-top:6px;font-size:20px">Turning One Episode Into Ten Assets</div>'
-            '<div class="fm-meta"><span class="fm-c tagged" style="border:0"><span class="tag a" style="margin:0">HOW-TO</span></span>'
-            '<span>7 min read</span><span>Updated September 2026</span></div>'
+            '<div class="fm-h1" style="margin-top:6px;font-size:20px;color:#1F3C88">Turning One Episode Into Ten Assets</div>'
+            '<div class="fm-meta"><span class="tag a" style="font:600 9px var(--f-m);padding:3px 7px;border-radius:99px;'
+            'background:#fdf3e0;color:#9a6712">HOW-TO</span><span>7 min read</span><span>Updated September 2026</span></div>'
             '<div class="fm-lines"><u></u><u></u><u class="s"></u><u></u><u></u><u class="s"></u></div>'
             '<div class="fm-sign"><b>Get the next podcasting post by email</b><span>Subscribe</span></div>'
             '<div class="fm-next"><h6>Read next in B2B Podcasting</h6>'
@@ -687,17 +728,17 @@ def film_stage():
             '<div><span class="tag" style="font:600 9px var(--f-m);padding:3px 7px;border-radius:99px;background:#eef2ff;color:#3b5bd9">PODCAST</span>'
             'Season planning for a show that converts</div>'
             '<div><span class="tag a" style="font:600 9px var(--f-m);padding:3px 7px;border-radius:99px;background:#fdf3e0;color:#9a6712">HOW-TO</span>'
-            'Measuring a B2B show without vanity metrics</div></div></div>')
+            'Measuring a B2B show without vanity metrics</div></div></div></div>')
 
     return f'''
 <div class="fm-cap" id="cap"></div>
-<div class="fm-badge" id="badge"><span id="b1">Seven niches</span><span id="b2">Format on every card</span>
+<div class="fm-badge" id="badge"><span id="b1">Seven topics</span><span id="b2">Format and length on every card</span>
   <span id="b3">A hub per topic</span><span id="b4">Read next on every article</span></div>
 <div class="fm-win"><div class="fm-bar"><i></i><i></i><i></i><div class="fm-url" id="url">content10x.com/blog</div></div>
   <div class="fm-body">{blog}{hub}{post}
-    <span class="fm-note n1" id="n1">Search is the only way in</span>
-    <span class="fm-note n2" id="n2">A podcast episode looks like a news post</span>
-    <span class="fm-note n3" id="n3">No next step for the reader</span>
+    <span class="fm-note n1" id="n1">Six popular posts, then 350 in one list</span>
+    <span class="fm-note n2" id="n2">Search is the only way in</span>
+    <span class="fm-note n3" id="n3">A podcast looks the same as a guide</span>
   </div></div>
 <div class="fm-cursor" id="tap"><span class="rp"></span></div>
 '''
@@ -705,42 +746,54 @@ def film_stage():
 
 def film_script():
     parts = []
-    for i, (t, m, tag, tone) in enumerate(FILM_POD):
-        at = round(3.2 + i * .18, 2)
+    for i, (t, ex, ep, th, tag, tone, rt) in enumerate(FILM_POD):
+        at = round(3.9 + i * .16, 2)
         safe = t.replace("'", "")
         parts.append("[%s,0,html('#c%d b','%s')]" % (at, i, safe))
-        parts.append("[%s,0,html('#c%d small','%s')]" % (at, i, m))
+        parts.append("[%s,0,html('#c%d small','%s')]" % (at, i, ex.replace("'", "")))
+        parts.append("[%s,0,html('#c%d .rt','%s')]" % (at, i, rt))
+        parts.append("[%s,0,html('#c%d .th u','%s')]" % (at, i, th.replace("'", "")))
+        parts.append("[%s,0,html('#c%d .th em','%s')]" % (at, i, ep))
         parts.append("[%s,0,cls('#c%d .tag','tag %s')]" % (at, i, tone))
         parts.append("[%s,0,html('#c%d .tag','%s')]" % (at, i, tag))
     swap = ','.join(parts)
     return """
-<script src="assets/film.js?v=2"></script>
+<script src="assets/film.js?v=6"></script>
 <script>
 var view=D.view,add=D.add,rem=D.rem,move=D.move,press=D.press,type=D.type,html=D.html,cls=D.cls,style=D.style;
+var SC=function(sel,pad){var el=document.querySelector(sel);return el?Math.max(0,el.offsetTop-(pad||70)):0;};
+var GOTO=function(sel,pad){return function(){var s=document.getElementById('scroll');if(s)s.scrollTop=SC(sel,pad);};};
 var STAGE = document.getElementById('filmStage').innerHTML;
 document.getElementById('filmStage').remove();
+var GLIDE=function(sel,pad){var from=null,to=null;return function(p){var s=document.getElementById('scroll');if(!s)return;
+  if(from===null){from=s.scrollTop;to=SC(sel,pad);}s.scrollTop=from+(to-from)*(p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2);};};
 
-D.scene('The blog today','One long list, newest first. Three hundred and fifty posts with no way in except search.',7,[
- [0,0,view('vBlog')],[0,0,html('#url','content10x.com/blog')],
- [.8,0,add('#n1')],[1.8,0,add('#n2')],[2.8,0,add('#n3')]]);
+D.scene('Your blog today','Six popular posts, a search box, then every post ever published in one long list.',9,[
+ [0,0,view('vBlog')],[0,0,html('#url','content10x.com/blog')],[0,0,function(){var s=document.getElementById('scroll');if(s)s.scrollTop=0;}],
+ [1,0,add('#n1')],[2.2,0,add('#n2')],
+ [4,1.6,GLIDE('#gA',210)],
+ [5.4,0,add('#n3')]]);
 
-D.scene('Seven topics appear','The same posts, grouped the way your readers think. Each one gets its own address.',6,[
+D.scene('Seven topics appear','The same posts, the same brand, grouped the way your readers think. Each topic gets its own address.',7,[
  [0,0,rem('#n1')],[0,0,rem('#n2')],[0,0,rem('#n3')],
- [.4,0,add('#fil')],[.6,0,html('#bSub','Browse by topic, format or time. Or search inside a topic.')],
- [1.2,0,add('#b1','in')],[2.2,0,html('#bMore','Every post now sits in exactly one topic')]]);
+ [0,0,GOTO('#pop',150)],
+ [.5,0,add('#fil')],[.8,0,html('#bSub','Browse by topic, format or time. Or search inside a topic.')],
+ [1.6,0,add('#b1','in')]]);
 
-D.scene('Every card says what it is','Format and reading time on the card, so nobody opens a podcast expecting an article.',6,[
+D.scene('Every card says what it is','Format and length on the card, so nobody opens a podcast expecting a five minute read.',7,[
+ [0,1.2,GLIDE('#gA',86)],
  [.3,0,add('#c0','tagged')],[.5,0,add('#c1','tagged')],[.7,0,add('#c2','tagged')],
  [.9,0,add('#c3','tagged')],[1.1,0,add('#c4','tagged')],[1.3,0,add('#c5','tagged')],
- [2,0,add('#b2','in')]]);
+ [2.2,0,add('#b2','in')]]);
 
-D.scene('One click, one topic','Filters change the page and the address, so a topic can be shared, linked and found in search.',8,[
- [.6,1,move('#fPod')],[1.7,0,press('#fPod')],[1.9,0,cls('#fPod','pick')],[1.9,0,cls('#fAll','')],
- [2,0,html('#url','content10x.com/blog/podcasting')],[2,0,html('#bSearch','Search within B2B Podcasting')],
+D.scene('One click, one topic','The filter changes the page and the address, so a topic can be shared, linked and found in search.',9,[
+ [0,1,GLIDE('#fil',120)],
+ [1.2,1,move('#fPod')],[2.3,0,press('#fPod')],[2.5,0,cls('#fPod','pick')],[2.5,0,cls('#fAll','')],
+ [2.6,0,html('#url','content10x.com/blog/podcasting')],[2.6,0,html('#bAll','41 posts in B2B Podcasting')],[3.4,1.2,GLIDE('#gA',86)],
  SWAP,
- [4.6,0,add('#bStart','in')],[5.4,0,html('#bMore','41 posts in B2B Podcasting')]]);
+ [6.2,0,add('#bStart','in')]]);
 
-D.scene('Each topic gets a home','A hub page that explains the topic, points at the best five posts, and offers the right sign up.',7,[
+D.scene('Each topic gets a home','A hub page that introduces the topic, points at the best five posts, and offers the sign up that matches.',7,[
  [.2,0,view('vHub')],[.2,0,html('#url','content10x.com/blog/podcasting')],[1.4,0,add('#b3','in')]]);
 
 D.scene('And the article knows where it sits','Breadcrumb, format, reading time, the date it was updated, and what to read next inside the same topic.',7,[
@@ -748,15 +801,56 @@ D.scene('And the article knows where it sits','Breadcrumb, format, reading time,
  [1.6,0,add('#b4','in')]]);
 
 D.init({ stage: STAGE, chapters: ['Today','Topics','Cards','Filter','Hub','Article'],
-  note: 'A mock up of content10x.com/blog after Option 1. Real post titles, real topics, drawn in code.' });
+  note: 'A mock up of content10x.com/blog after Option 1, in your own brand, drawn in code.' });
 </script>
 """.replace('SWAP', swap)
-
 
 
 def film_block():
     return f'''<div id="filmMount"></div>
     <div id="filmStage" hidden>{film_stage()}</div>'''
+
+
+
+NOW_NEXT = [
+    ('Finding a topic', 'A search box, and only if you already know the words to type.',
+     'Seven topic filters at the top of the blog, each with its own page and address.'),
+    ('Browsing', 'One list, newest first, 350 posts deep.',
+     'Browse by topic, then narrow by format or reader stage.'),
+    ('Knowing what a post is', 'A title and a thumbnail. A podcast looks like an article.',
+     'Format and length on every card, so the choice is made before the click.'),
+    ('Where a beginner starts', 'Nowhere in particular.',
+     'A Start here list of three to five posts on every topic hub.'),
+    ('After reading a post', 'Nothing follows. The reader leaves.',
+     'Read next, matched to the same topic, at the foot of every article.'),
+    ('The back catalogue', '350 posts, some excellent, some from 2018, all treated the same.',
+     'Every post kept, updated, merged or retired, with a reason written next to it.'),
+    ('Sign up prompts', 'One prompt, the same for everyone.',
+     'The prompt matches the topic being read.'),
+    ('Publishing a new post', 'Publish and hope it gets found.',
+     'Publish, pick one niche, add tags. Ten seconds, and it files itself.'),
+    ('Search rankings', 'Nothing at risk, and nothing improving either.',
+     'Every URL kept or redirected, so rankings follow the content.'),
+    ('The design', 'The blog page as it is today.',
+     'Same brand, same colours. A tidier blog page, hub pages and article layout.'),
+]
+
+
+def now_next():
+    rows = ''.join(
+        f'<div class="nn-r"><div class="nn-l">{H.escape(label)}</div>'
+        f'<div class="nn-a"><span class="nn-t">Right now</span><p>{H.escape(now)}</p></div>'
+        f'<div class="nn-b"><span class="nn-t">After Option 1</span><p>{H.escape(nxt)}</p></div></div>'
+        for label, now, nxt in NOW_NEXT)
+    return f"""
+  <section class="sec" id="nownext">
+    <div class="wrap">
+      <div class="sec-h rev"><span class="kick"><b>07</b> Side by side</span>
+        <h2 class="split">What changes, line by line.</h2>
+        <p class="lede">Ten things a reader or your team runs into. On the left is today, on the right is the same thing after Option 1.</p></div>
+      <div class="nn rev"><div class="nn-h"><span></span><span>Right now</span><span>After Option 1</span></div>{rows}</div>
+    </div>
+  </section>"""
 
 
 def qblock(num, question, lede, paras, mock, points=None, pts_title='In practice'):
@@ -889,6 +983,7 @@ def answers():
   </div></section>
 '''
 
+    body += now_next()
     body += film_script()
     return body + cta('Happy to walk through any of this live.',
         'If something here does not match how your team works, that is useful to know before we start rather than after.',
