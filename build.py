@@ -414,7 +414,7 @@ def index():
              ('No categories or formats', 'A 40 minute podcast write up looks exactly like a 3 minute news post.'),
              ('Nothing to build on', 'No hub pages, no related posts, and no next step for the reader.')]
     pc = ''.join(f'<div class="card"><span class="num">0{i+1}</span><h3>{t}</h3><p>{d}</p></div>' for i, (t, d) in enumerate(probs))
-    opts = [('1', 'Blog restructure', '2 to 3 weeks', 'Lowest risk &middot; Blog only',
+    opts = [('1', 'Blog restructure', '4 weeks', 'Lowest risk &middot; Blog only',
              'Reorganise and improve the blog inside the current WordPress site. Nothing else changes.', 'option-1.html'),
             ('2', 'AI assisted new site', '3 to 4 weeks', 'Full rebuild &middot; New design',
              'A complete new website, built fast with AI assisted development, then reviewed and hardened by hand.', 'option-2.html'),
@@ -431,7 +431,7 @@ def index():
             ('Search rankings', 'Lowest risk, as only the blog changes', 'Protected with full URL mapping and 301 redirects', 'Protected with full URL mapping and 301 redirects'),
             ('Existing tools', 'Keep working as they are', 'Rebuilt and retested', 'Rebuilt and retested'),
             ('Team training', 'Written tagging guide', 'Written guide and walkthrough', 'Live training session and full documentation'),
-            ('Indicative timeline', '2 to 3 weeks', '3 to 4 weeks', '30 days'),
+            ('Indicative timeline', '4 weeks', '3 to 4 weeks', '30 days'),
             ('Post launch support', '2 weeks', '2 weeks', '2 weeks'),
             ('Best for', 'Fixing the blog quickly, with minimal change and minimal risk', 'A full refresh with a lighter scope and a faster turnaround', 'A complete, long term website built exactly for your team')]
     tr = ''.join('<tr><th>' + r[0] + '</th>' + ''.join(f'<td>{c}</td>' for c in r[1:]) + '</tr>' for r in rows)
@@ -553,7 +553,7 @@ def option1():
             ('A hub page per niche', 'Introduction, best posts, Start here and a call to action. A real landing page for each topic you own.'),
             ('A next step on every topic', 'Topic specific sign up instead of one generic footer form.')]
     wc = ''.join(f'<div class="card"><span class="num">0{i+1}</span><h3>{t}</h3><p>{d}</p></div>' for i, (t, d) in enumerate(wins))
-    body = opt_hero('1', '2 to 3 weeks', 'Blog only', f'Blog restructuring, inside the {sq("site you have")}.',
+    body = opt_hero('1', '4 weeks', 'Blog only', f'Blog restructuring, inside the {sq("site you have")}.',
         mk_blog_new(),
         'All work stays inside the current WordPress site. Nothing else on the website changes. The blog is sorted into the agreed niches and reduced to <mark>the strongest 150 to 200 posts</mark>, so what remains is easy to browse and clearly about something.',
         ['Lowest risk', 'Blog section only', 'Current design stays', '2 weeks support after launch'])
@@ -950,7 +950,7 @@ def answers():
          'Round two is the pieces: the post card, the filter bar, the hub header and the article page, agreed one at a time so nothing '
          'is a surprise at the end.',
          'Round three is sign off: desktop and mobile, real content, ready to build. After that the design stops moving, which is what '
-         'keeps the two to three weeks honest.'],
+         'keeps the four weeks honest.'],
         mk_design(),
         ['Nothing is designed in isolation, every screen uses your real posts.',
          'Mobile is designed at the same time, not adapted afterwards.',
@@ -1083,7 +1083,7 @@ def investment():
           <div class="price-n">&pound;3,600</div>
           <p class="price-alt">or <b>&pound;3,400</b> paid in one payment</p>
           <p>For the whole of Option 1: the audit, the structure, the rebuilt blog, the category pages, the article
-          pages, the redirects and the handover. Two to three weeks, plus two weeks of support.</p>
+          pages, the redirects and the handover. Four weeks, plus two weeks of support.</p>
         </div>
         <div class="price-r">
           <div class="pay">
@@ -1141,9 +1141,10 @@ def investment():
       <div class="panel pad rev">
         <span class="kick"><b>03</b> Timeline</span>
         <div class="tl" style="margin-top:20px">
-          <div class="tl-i"><b>Week 1</b><p>Audit of all 350 plus posts, and the niche structure proposed for your sign off.</p></div>
-          <div class="tl-i"><b>Week 2</b><p>The structure applied: categories, tags, merges and redirects, on staging.</p></div>
-          <div class="tl-i"><b>Week 3</b><p>The new blog front page, category pages and article pages. Sign off, then live.</p></div>
+          <div class="tl-i"><b>Week 1</b><p>Audit of all 350 plus posts, with the performance data pulled and every post read.</p></div>
+          <div class="tl-i"><b>Week 2</b><p>The niche and tag structure proposed, agreed with you, then applied to every post.</p></div>
+          <div class="tl-i"><b>Week 3</b><p>The new blog front page, category pages and article pages built on staging.</p></div>
+          <div class="tl-i"><b>Week 4</b><p>Merges, redirects, mobile and speed checks, your sign off, then live.</p></div>
           <div class="tl-i"><b>+ 2 weeks</b><p>Support: crawl errors, redirects, small adjustments once real traffic arrives.</p></div>
         </div>
         <p class="tiny" style="margin-top:18px">The clock starts when access and the go ahead land, not when the invoice does.</p>
@@ -1322,7 +1323,7 @@ def option3():
 PAGES = [('investment.html', 'Investment, Content 10x proposal', 'What Option 1 costs, what is included, how it is paid and how the work runs.', investment),
          ('answers.html', 'Your questions, answered, Content 10x proposal', 'How the audit, the tests, the update and merge process, the filters and the design rounds actually work, with a picture of each.', answers),
          ('index.html', 'Website and blog proposal for Content 10x', 'Three options to restructure the Content 10x blog and website, with one shared content structure.', index),
-         ('option-1.html', 'Option 1: Blog restructuring, 2 to 3 weeks', 'Reorganise the blog inside the current WordPress site: audit, niches, filters and hub pages.', option1),
+         ('option-1.html', 'Option 1: Blog restructuring, 4 weeks', 'Reorganise the blog inside the current WordPress site: audit, niches, filters and hub pages.', option1),
          ('option-2.html', 'Option 2: AI assisted new site, 3 to 4 weeks', 'A complete new website built fast with AI assisted development, then reviewed and hardened by hand.', option2),
          ('option-3.html', 'Option 3: Custom site and CMS, 30 days', 'A custom designed website with a CMS modelled on how your team publishes.', option3)]
 
