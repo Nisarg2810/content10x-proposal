@@ -45,7 +45,7 @@ def shell(page, title, desc, body):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap">
 <link rel="stylesheet" href="assets/site.css?v=1">
-<link rel="stylesheet" href="assets/mock.css?v=1">\n<link rel="stylesheet" href="assets/film.css?v=5">
+<link rel="stylesheet" href="assets/mock.css?v=1">\n<link rel="stylesheet" href="assets/film.css?v=7">
 <script>try{{var t=localStorage.getItem('c10-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}}catch(e){{document.documentElement.setAttribute('data-theme','dark');}}</script>
 </head>
 <body>
@@ -722,13 +722,12 @@ def film_stage():
             'background:#fdf3e0;color:#9a6712">HOW-TO</span><span>7 min read</span><span>Updated September 2026</span></div>'
             '<div class="fm-lines"><u></u><u></u><u class="s"></u><u></u><u></u><u class="s"></u></div>'
             '<div class="fm-sign"><b>Get the next podcasting post by email</b><span>Subscribe</span></div>'
-            '<div class="fm-next"><h6>Read next in B2B Podcasting</h6>'
-            '<div><span class="tag g" style="font:600 9px var(--f-m);padding:3px 7px;border-radius:99px;background:#e7f8f0;color:#137a4d">GUIDE</span>'
-            'Booking guests your buyers want to hear from</div>'
-            '<div><span class="tag" style="font:600 9px var(--f-m);padding:3px 7px;border-radius:99px;background:#eef2ff;color:#3b5bd9">PODCAST</span>'
-            'Season planning for a show that converts</div>'
-            '<div><span class="tag a" style="font:600 9px var(--f-m);padding:3px 7px;border-radius:99px;background:#fdf3e0;color:#9a6712">HOW-TO</span>'
-            'Measuring a B2B show without vanity metrics</div></div></div></div>')
+            '<div class="fm-next"><h6>Read next in B2B Podcasting</h6><div class="fm-ngrid">'
+            + ''.join(f'<div class="fm-c"><span class="th"><em>{ep}</em><u>{th}</u></span>'
+                      f'<span class="tag {tone}" style="opacity:1;transform:none">{tag}</span>'
+                      f'<b>{t}</b><span class="rt" style="display:block">{rt}</span></div>'
+                      for t, ex, ep, th, tag, tone, rt in FILM_POD[3:6])
+            + '</div></div></div></div>')
 
     return f'''
 <div class="fm-cap" id="cap"></div>

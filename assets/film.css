@@ -87,7 +87,7 @@
 .fm-lines u.s{width:62%}
 .fm-next{margin-top:16px}
 .fm-next h6{margin:0 0 8px;font:700 12px var(--f-d);color:#111827}
-.fm-next div{display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px solid #eef1f5;font-size:11.5px;color:#2b3444}
+.fm-next > div:not(.fm-ngrid){display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px solid #eef1f5;font-size:11.5px;color:#2b3444}
 .fm-sign{margin-top:14px;border:1px solid rgba(61,220,151,.4);background:#f0fbf6;border-radius:10px;padding:11px 13px;
   display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:#1f5c44}
 .fm-sign span{background:var(--mint);color:#04301f;font-weight:700;padding:5px 12px;border-radius:99px;font-size:11px}
@@ -158,3 +158,9 @@ html.fm-narrow .mcap p{margin:10px 0 0;font-size:15px;line-height:1.6;color:var(
 .fm-c.tagged .rt{display:block}
 .fm-band i{flex:1;background:#fff;border-radius:2px;height:26px;display:flex;align-items:center;padding:0 10px;
   font-style:normal;font-size:11px;color:#8a94a4}
+.fm-ngrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+.fm-ngrid .fm-c .th{height:56px}
+.fm-ngrid .fm-c .th u{top:18px;right:38px;font-size:8px}
+.fm-ngrid .fm-c .th::after{width:34px;height:34px;right:-4px;bottom:-8px}
+.fm-ngrid .fm-c b{font-size:11px;padding-top:7px}
+.fm-ngrid .fm-c .rt{font-size:9.5px}
