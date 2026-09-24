@@ -852,7 +852,7 @@ def now_next():
     return f"""
   <section class="sec" id="nownext">
     <div class="wrap">
-      <div class="sec-h rev"><span class="kick"><b>07</b> Side by side</span>
+      <div class="sec-h rev"><span class="kick"><b>06</b> Side by side</span>
         <h2 class="split">What changes, line by line.</h2>
         <p class="lede">Ten things a reader or your team runs into. On the left is today, on the right is the same thing after Option 1.</p></div>
       <div class="nn rev"><div class="nn-h"><span></span><span>Right now</span><span>After Option 1</span></div>{rows}</div>
@@ -888,8 +888,8 @@ def answers():
       rather than a promise. Nothing here changes the shape of Option 1, it is the same work described properly.</p>
       <div class="chips" style="margin-top:26px">
         <span><a href="#q01">Data window</a></span><span><a href="#q02">The three tests</a></span>
-        <span><a href="#q03">Update and merge</a></span><span><a href="#q04">Filters and categories</a></span>
-        <span><a href="#q05">Design process</a></span><span><a href="#q06">What it will look like</a></span>
+        <span><a href="#q03">Filters and categories</a></span>
+        <span><a href="#q04">Design process</a></span><span><a href="#q05">What it will look like</a></span>
       </div>
     </div>
   </section>
@@ -925,23 +925,7 @@ def answers():
          'Anything I am unsure about is marked for your call rather than decided quietly.',
          'You sign off the whole list once, before a single post is touched.'])
 
-    body += qblock('03', 'What does the update or merge process actually look like?',
-        'Two of the four outcomes need writing. For those two, you get a specific list of changes before anyone starts.',
-        ['For an <b>update</b>, I do not write "improve this post". I write what is wrong with it: the intro takes four paragraphs '
-         'to reach the point, the tool list names two products that no longer exist, there are no examples after the third heading. '
-         'Your writer can work straight from that list, or I can do the structural edits and you approve them. The URL never changes, '
-         'so there is no risk to its rankings, and the updated date is refreshed so readers can see it is current.',
-         'For a <b>merge</b>, two or three posts answering the same question become one post worth reading. The strongest URL survives, '
-         'usually the one with the most links and history. The others are folded into it, section by section, and then redirected to it '
-         'with a 301 so their traffic and their links flow into the survivor rather than disappearing.',
-         'Nothing is deleted. A retired post is redirected to the closest hub and kept in the sheet, so you can bring it back if you want it.'],
-        mk_flow(),
-        ['Every update comes with a written list of the exact changes.',
-         'Every merge comes with a before and after view of which URL survives.',
-         'You decide who writes: your team, or me for the structural work.'],
-        'What you get on each one')
-
-    body += qblock('04', 'How do the filters and categories get decided?',
+    body += qblock('03', 'How do the filters and categories get decided?',
         'You pick the seven niches, I file every post against them. One niche per post, then as many tags as it earns.',
         ['The niches come out of the audit, not out of my head. Once 350 posts are in a sheet with their topics visible, the natural '
          'groupings are obvious, and I bring you a proposed list with the post count in each. You cut, rename and merge until it '
@@ -957,7 +941,7 @@ def answers():
          'One niche per post, unlimited tags.',
          'A written guide for your team, so new posts land in the right place.'])
 
-    body += qblock('05', 'What is the design process for the theme?',
+    body += qblock('04', 'What is the design process for the theme?',
         'Three short rounds, and you only ever choose between things you can see on screen.',
         ['This is a tidy up of the blog inside your current site, so your brand does not change. Same colours, same logo, same voice. '
          'What changes is the blog page, the hub pages and the article layout.',
@@ -972,7 +956,7 @@ def answers():
          'Mobile is designed at the same time, not adapted afterwards.',
          'Once signed off, the design is frozen so the build can be predictable.'])
 
-    body += qblock('06', 'Can I see an example of the finished result?',
+    body += qblock('05', 'Can I see an example of the finished result?',
         'Rather than show you somebody else, here is your own blog after the work, drawn out screen by screen.',
         ['Past work for other clients would tell you how their site looks. This tells you how yours will. Every screen below uses '
          'your real post titles, your topics and your structure, laid out the way it would be on the day this goes live.',

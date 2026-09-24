@@ -88,7 +88,8 @@ a{color:inherit;text-decoration:none}
 .thumb.light{background:linear-gradient(120deg,#eef2fb,#d8e4f8)}
 .thumb .ep{position:absolute;left:12px;top:12px;background:var(--amber);color:#2b1a00;font:700 10px var(--f);
   letter-spacing:.06em;padding:3px 8px;border-radius:2px}
-.thumb .tt{position:absolute;left:12px;top:38px;right:78px;color:#fff;font:700 14px/1.3 var(--f)}
+.thumb .tt{position:absolute;left:12px;top:38px;right:78px;color:#fff;font:700 14px/1.3 var(--f);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .thumb.light .tt{color:var(--blue)}
 .thumb .av{position:absolute;right:-10px;bottom:-14px;width:96px;height:96px;border-radius:50%;
   background:radial-gradient(circle at 36% 30%,#f5d3b4,#c98f6a)}
@@ -104,6 +105,58 @@ a{color:inherit;text-decoration:none}
 
 .empty{padding:50px 20px;text-align:center;color:var(--mut);font-size:15px}
 .empty b{display:block;color:var(--ink);font-size:17px;margin-bottom:8px}
+
+/* front page sections */
+.sec-h{margin:44px 0 18px;padding-top:26px;border-top:1px solid var(--line)}
+.sec-h:first-of-type{border-top:0;padding-top:0}
+.sec-h h2{margin:0;font-size:26px;color:var(--ink);letter-spacing:-.02em}
+.sec-h p{margin:6px 0 0;font-size:14.5px;color:var(--mut)}
+.feat{display:grid;grid-template-columns:1.35fr 1fr;gap:26px}
+@media(max-width:900px){.feat{grid-template-columns:1fr}}
+.feat .side{display:grid;gap:22px;align-content:start}
+.card.big .thumb{height:300px}
+.card.big .thumb .tt{top:52px;right:130px;font-size:21px;line-height:1.25;-webkit-line-clamp:3}
+.card.big .thumb .ep{font-size:11px;padding:5px 11px}
+.card.big .thumb .av{width:170px;height:170px;right:-16px;bottom:-24px}
+.card.big h3{font-size:25px;margin-top:12px}
+.card.big p{font-size:15px}
+.card.row{display:grid;grid-template-columns:132px 1fr;gap:14px;align-items:start}
+.card.row .thumb{height:88px}
+.card.row .thumb .tt{display:none}
+.card.row .thumb .ep{left:8px;top:8px;font-size:8.5px;padding:2px 6px}
+.card.row .thumb .av{width:54px;height:54px;right:-6px;bottom:-8px}
+.card.row h3{font-size:16px;margin-top:0}
+.card.row .tags{margin-top:0}
+
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:1000px){.cats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.cats{grid-template-columns:1fr}}
+.cat{border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;cursor:pointer;background:#fff;transition:.18s;
+  display:flex;flex-direction:column}
+.cat:hover{border-color:var(--blue2);box-shadow:0 8px 24px rgba(31,60,136,.08);transform:translateY(-2px)}
+.cat b{font-size:16.5px;color:var(--blue);letter-spacing:-.01em}
+.cat p{margin:7px 0 0;font-size:13.5px;line-height:1.55;color:var(--body);flex:1}
+.cat .go{margin-top:14px;font-size:13px;font-weight:600;color:var(--blue2)}
+.cat .n{font-size:12px;color:var(--mut);font-weight:500}
+
+.series{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:900px){.series{grid-template-columns:1fr}}
+.ser{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff;cursor:pointer;transition:.18s}
+.ser:hover{border-color:var(--blue2);transform:translateY(-2px)}
+.ser .top{height:104px;position:relative;background:linear-gradient(120deg,#16305f,#2b52a8)}
+.ser .top.b{background:linear-gradient(120deg,#8d1020,#c8102e)}
+.ser .top.c{background:linear-gradient(120deg,#0f5e4a,#17a97f)}
+.ser .top span{position:absolute;left:14px;bottom:12px;color:#fff;font:700 16px var(--f)}
+.ser .top em{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.18);color:#fff;font:700 10px var(--f);
+  letter-spacing:.07em;padding:4px 9px;border-radius:99px;font-style:normal}
+.ser .in{padding:14px 16px 16px}
+.ser .in p{margin:0;font-size:13.5px;line-height:1.55;color:var(--body)}
+.ser .in .go{margin-top:10px;font-size:13px;font-weight:600;color:var(--blue2)}
+
+.loadmore{border:1px solid var(--line);background:#fff;border-radius:3px;padding:12px 26px;font:600 14px var(--f);
+  color:var(--ink);cursor:pointer}
+.loadmore:hover{border-color:var(--blue2);color:var(--blue2)}
+.front.off,.filters.off{display:none}
 
 /* article */
 .post{display:none;padding:34px 0 60px}
@@ -162,10 +215,28 @@ a{color:inherit;text-decoration:none}
     </div>
 
     <div class="chips" id="topics"></div>
-    <div class="sub"><small>Format</small><div class="chips" id="formats" style="margin-top:0"></div></div>
-    <div class="sub"><small>Stage</small><div class="chips" id="stages" style="margin-top:0"></div></div>
 
+    <!-- shown on the front page only -->
+    <section class="front" id="front">
+      <div class="sec-h"><h2>Featured</h2><p>What we would hand a new reader first.</p></div>
+      <div class="feat" id="feat"></div>
+
+      <div class="sec-h"><h2>Browse by category</h2><p>Seven topics. Each one has its own page, its own feed and its own sign up.</p></div>
+      <div class="cats" id="cats"></div>
+
+      <div class="sec-h"><h2>Series worth starting at the beginning</h2><p>Multi part work, in the order we published it.</p></div>
+      <div class="series" id="series"></div>
+
+      <div class="sec-h" id="latestHead"><h2>Latest articles</h2><p>Everything else, newest first.</p></div>
+    </section>
+
+    <!-- shown when a category or a search is active -->
     <div class="hub" id="hub"></div>
+
+    <div class="filters" id="filters">
+      <div class="sub"><small>Format</small><div class="chips" id="formats" style="margin-top:0"></div></div>
+      <div class="sub"><small>Stage</small><div class="chips" id="stages" style="margin-top:0"></div></div>
+    </div>
 
     <div class="meta-row">
       <div class="count" id="count"></div>
@@ -173,6 +244,8 @@ a{color:inherit;text-decoration:none}
     </div>
 
     <div class="grid" id="grid"></div>
+    <div style="text-align:center;margin:0 0 44px"><button class="loadmore" id="more">Load more posts</button></div>
+
     <div class="note">Every filter here changes the address bar, so a topic can be linked, shared and found in search.
       Try <b>/blog/?topic=podcasting</b> in the address.</div>
   </section>
@@ -234,8 +307,14 @@ var POSTS = [
   P('How to Structure a Small B2B Content Team','Who to hire first, what to keep in house, and what agencies are genuinely better at.','ops','Guide','Scaling','12 min read','EPISODE 354',650,'2026-02-05')
 ];
 
+var SERIES = [
+  {name:'The Ultimate Guides', tag:'6 parts', cls:'', blurb:'Long form guides on the things people ask us to run for them: webinars, expert interviews, podcasts and repurposing.', topic:'repurposing'},
+  {name:'Employee Led Content', tag:'4 parts', cls:'b', blurb:'A run of episodes and playbooks on getting your team posting, from first draft nerves to a weekly rhythm.', topic:'employee'},
+  {name:'AI and Search, 2026', tag:'3 parts', cls:'c', blurb:'What changed in discovery this year, what we tested, and what we would do differently now.', topic:'ai'}
+];
+
 var TAG = {'Podcast episode':'', 'Guide':'g', 'How-to':'a', 'Framework':'a', 'Interview':'v', 'Template':'g'};
-var state = {topic:'', formats:[], stage:'', q:'', sort:'popular', post:null};
+var state = {topic:'', formats:[], stage:'', q:'', sort:'popular', post:null, shown:9};
 var $ = function(s){return document.querySelector(s)};
 
 function slugify(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
@@ -269,16 +348,46 @@ function match(){
   });
 }
 
-function cardHtml(p){
-  return '<div class="card" data-slug="'+slugify(p.title)+'">'
-    + '<div class="thumb '+p.thumb+'"><span class="ep">'+p.ep+'</span><span class="tt">'+p.title.slice(0,58)+'</span><span class="av"></span></div>'
+function cardHtml(p, variant){
+  return '<div class="card '+(variant||'')+'" data-slug="'+slugify(p.title)+'">'
+    + '<div class="thumb '+p.thumb+'"><span class="ep">'+p.ep+'</span><span class="tt">'+p.title+'</span><span class="av"></span></div>'
     + '<div class="tags"><span class="tag '+TAG[p.fmt]+'">'+p.fmt.toUpperCase()+'</span><span class="rt">'+p.rt+'</span></div>'
-    + '<h3>'+p.title+'</h3><p>'+p.ex+'</p><span class="more">Read More</span></div>';
+    + '<h3>'+p.title+'</h3>'
+    + (variant==='row' ? '' : '<p>'+p.ex+'</p><span class="more">Read More</span>')
+    + '</div>';
+}
+
+function featured(){
+  var top = POSTS.slice().sort(function(a,b){return b.views-a.views}).slice(0,3);
+  var lead = top[0], side = top.slice(1);
+  document.getElementById('feat').innerHTML =
+    cardHtml(lead,'big') + '<div class="side">' + side.map(function(p){return cardHtml(p,'row')}).join('') + '</div>';
+}
+
+function categories(){
+  document.getElementById('cats').innerHTML = TOPICS.map(function(t){
+    var n = POSTS.filter(function(p){return p.topic===t.slug}).length;
+    return '<div class="cat" data-topic="'+t.slug+'"><b>'+t.name+'</b><p>'+t.blurb+'</p>'
+      + '<span class="go">View the category <span class="n">'+n+' posts</span></span></div>';
+  }).join('');
+}
+
+function seriesBlock(){
+  document.getElementById('series').innerHTML = SERIES.map(function(s){
+    return '<div class="ser" data-topic="'+s.topic+'"><div class="top '+s.cls+'"><em>'+s.tag+'</em><span>'+s.name+'</span></div>'
+      + '<div class="in"><p>'+s.blurb+'</p><div class="go">Explore the series</div></div></div>';
+  }).join('');
 }
 
 function render(){
   chips();
   var list = match(), t = topicOf(state.topic);
+  var front = !state.topic && !state.q && !state.formats.length && !state.stage;
+
+  document.getElementById('front').className = front ? 'front' : 'front off';
+  document.getElementById('filters').className = front ? 'filters off' : 'filters';
+  if(front){ featured(); categories(); seriesBlock(); }
+
   var hub = $('#hub');
   if(t){
     var starts = POSTS.filter(function(p){return p.topic===t.slug}).slice(0,3);
@@ -288,10 +397,16 @@ function render(){
           return '<li data-slug="'+slugify(p.title)+'">'+p.title+'</li>'}).join('') + '</ol></div>';
   } else { hub.className = 'hub'; hub.innerHTML = ''; }
 
-  $('#count').innerHTML = '<b>'+list.length+'</b> post' + (list.length===1?'':'s')
-    + (t? ' in '+t.name : '') + (state.q? ' matching &ldquo;'+state.q+'&rdquo;':'');
-  $('#grid').innerHTML = list.length ? list.map(cardHtml).join('')
+  var featIds = POSTS.slice().sort(function(a,b){return b.views-a.views}).slice(0,3).map(function(p){return p.title});
+  var rest = front ? list.filter(function(p){return featIds.indexOf(p.title)<0}) : list;
+  var shown = front ? rest.slice(0, state.shown) : rest;
+  $('#count').innerHTML = front
+    ? '<b>'+rest.length+'</b> more posts'
+    : '<b>'+list.length+'</b> post' + (list.length===1?'':'s') + (t? ' in '+t.name : '')
+      + (state.q? ' matching &ldquo;'+state.q+'&rdquo;':'');
+  $('#grid').innerHTML = shown.length ? shown.map(function(p){return cardHtml(p)}).join('')
     : '<div class="empty" style="grid-column:1/-1"><b>Nothing matches that yet</b>Try a different topic, or clear the search.</div>';
+  document.getElementById('more').style.display = (front && rest.length > shown.length) ? '' : 'none';
 }
 
 function openPost(slug){
@@ -342,7 +457,7 @@ function showList(){
 document.addEventListener('click', function(e){
   var el;
   if(el = e.target.closest('[data-topic]')){
-    if(el.dataset.go==='topic' || el.classList.contains('chip')){
+    if(el.dataset.go==='topic' || el.classList.contains('chip') || el.classList.contains('cat') || el.classList.contains('ser')){
       state.topic = el.dataset.topic; state.q=''; $('#q').value='';
       showList(); window.scrollTo({top:0,behavior:'smooth'}); return;
     }
@@ -364,7 +479,8 @@ document.addEventListener('click', function(e){
   if(el = e.target.closest('[data-slug]')){ openPost(el.dataset.slug); return; }
 });
 
-$('#q').addEventListener('input', function(){ state.q = this.value; render(); });
+document.getElementById('more').addEventListener('click', function(){ state.shown += 9; render(); });
+$('#q').addEventListener('input', function(){ state.q = this.value; state.shown = 9; render(); });
 $('#qBtn').addEventListener('click', function(){ render(); });
 window.addEventListener('popstate', function(){ boot(); });
 
